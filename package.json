@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/galvinong/mqtt-fridge/issues"
   },
-  "homepage": "https://github.com/galvinong/mqtt-fridge#readme"
+  "homepage": "https://github.com/galvinong/mqtt-fridge#readme",
+  "dependencies": {
+    "bootstrap": "~3.3.7",
+    "jquery": "~3.1.1"
+  }
 }
