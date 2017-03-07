@@ -1,0 +1,19 @@
+{
+  "name": "mqtt-fridge",
+  "version": "1.0.0",
+  "description": "MQTT Frontend for Fridge",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/galvinong/mqtt-fridge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/galvinong/mqtt-fridge/issues"
+  },
+  "homepage": "https://github.com/galvinong/mqtt-fridge#readme"
+}
