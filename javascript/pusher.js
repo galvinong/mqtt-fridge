@@ -11,7 +11,7 @@ var mqtt = require('mqtt');
 var io = require('socket.io').listen(5000);
 
 // create a mqtt client object and connect to the mqtt broker
-var client = new mqtt.MQTTClient(1883, '127.0.0.1', 'pusher');
+var client = mqtt.connect('mqtt://127.0.0.1/');
 
 io.sockets.on('connection', function (socket) {
     // socket conneciton indicates what mqtt topic to subscribe to in
