@@ -14,14 +14,16 @@
     <script type="text/javascript" src="javascript/bootstrap.min.js"></script>
     <!-- <script type="text/javascript" src="javascript/bundle.js"></script> -->
     <script type="text/javascript">
-    var socket = io.connect('http://192.168.1.107:5000');
-    socket.on('connect', function() {
-        socket.on('mqtt', function(msg) {
-            console.log(msg.topic + ' ' + msg.payload);
-            $('#returntemp').html(msg.payload);
+        var socket = io.connect('http://192.168.1.107:5000');
+        socket.on('connect', function() {
+            socket.on('mqtt', function(msg) {
+                console.log(msg.topic + ' ' + msg.payload);
+                $('#returntemp').html(msg.payload);
+            });
+            socket.emit('subscribe', {
+                topic: 'RF24SN/in/1/1'
+            })
         });
-        socket.emit('subscribe',{topic:'/RF24SN/in/1/1'})
-    });
     </script>
 </head>
 
@@ -35,7 +37,7 @@
         <div class="row">
             <div class="col-sm-4">
                 <h3>Fridge Temperature Sensor #1</h3>
-                <p id ="returntemp">
+                <p id="returntemp">
 
                 </p>
             </div>
