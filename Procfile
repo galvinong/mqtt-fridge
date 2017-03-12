@@ -1,1 +1,1 @@
-web: node javascript/pusher.js
+web: iotdemo.html
