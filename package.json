@@ -4,7 +4,6 @@
   "description": "MQTT Frontend for Fridge",
   "main": "index.js",
   "scripts": {
-    "start": "node javascript/pusher.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

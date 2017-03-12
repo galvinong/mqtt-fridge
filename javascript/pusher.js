@@ -10,9 +10,7 @@ var mqtt = require('mqtt');
 const PORT = process.env.PORT || 5000;
 
 // create a socket object that listens on port 5000
-var io = require('socket.io').listen((PORT), () => {
-    console.log('Listening on ${ PORT }');
-});
+var io = require('socket.io').listen(PORT);
 
 // create a mqtt client object and connect to the mqtt broker
 var client = mqtt.connect('mqtt://m20.cloudmqtt.com/', {
