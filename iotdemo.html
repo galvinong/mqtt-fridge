@@ -9,39 +9,96 @@
     <!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/default.css" />
     <script type="text/javascript" src="javascript/jquery.min.js"></script>
     <script type="text/javascript" src="javascript/socket.io.min.js"></script>
     <script type="text/javascript" src="javascript/bootstrap.min.js"></script>
-    <!-- <script type="text/javascript" src="javascript/bundle.js"></script> -->
+
+    <!-- Socket handling script, gets live updates from mosquitto through socket.io  -->
     <script type="text/javascript">
+        bootcards.init({
+            offCanvasBackdrop: false,
+            offCanvasHideOnMainClick: false,
+            enableTabletPortraitMode: false,
+            disableRubberBanding: false,
+            disableBreakoutSelector: 'a.no-break-out'
+        });
+
+        // Create connection to socket.io on server
         var socket = io.connect('http://192.168.1.107:5000');
         socket.on('connect', function() {
+            // Recieves mqtt messages and print them out
             socket.on('mqtt', function(msg) {
                 console.log(msg.topic + ' ' + msg.payload);
-                $('#returntemp').html(msg.payload);
+                if (msg.topic == "RF24SN/in/1/1" && msg.payload !== "NaN") {
+                    $('.loading').hide();
+                    $('#returntemp').html(msg.payload);
+                } else if (msg.topic == "RF24SN/in/1/2" && msg.payload !== "NaN"){
+                    $('.loading').hide();
+                    $('#returnhumd').html(msg.payload);
+                }
             });
+            // Send subscribe message, to which topic
             socket.emit('subscribe', {
                 topic: 'RF24SN/in/1/1'
             })
+            socket.emit('subscribe', {
+                topic: 'RF24SN/in/1/2'
+            })
         });
     </script>
+    <!-- When document closes emit a disconnect socket -->
 </head>
 
 <body>
-    <div class="jumbotron text-center">
-        <h1>MQTT Sockets Demo</h1>
-        <p>Fridge IoT Temperature Sensor Demo</p>
-    </div>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-4">
-                <h3>Fridge Temperature Sensor #1</h3>
-                <p id="returntemp">
-
-                </p>
+    <div class="jumbotron color-jumbotron text-center">
+        <div class="d-flex justify-content-center">
+            <img class="img-responsive" src="img/fridge.png" style="max-height:175px;" />
+            <div>
+                <h1>Fridge IoT Sensor</h1>
+                <h7>MQTT Websockets Demo</h7>
             </div>
         </div>
+
+    </div>
+    <!-- Temperature Card Block -->
+    <div class="container-fluid mx-auto">
+        <div class="d-flex justify-content-center">
+            <div class="card text-center card-danger card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
+                <div class="card-block">
+                    <h4 class="card-title">Temperature</h4>
+                    <h6 class="card-subtitle text-muted">Sun disappears!</h6>
+                </div>
+                <div class="card-block">
+                    <img class="center-block card-img-top img-responsive" src="img/temp-icon.png" alt="Card Image cap" style="max-width: 100px;" />
+                    <h4 class="card-title saving" id="loading">Waiting<span>.</span><span>.</span><span>.</span></h4>
+                    <h4 class="card-title" id="returntemp"></h4>
+                </div>
+                <div class="card-block">
+                    <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                </div>
+            </div>
+            <!-- Humidity Card Block -->
+            <div class="card text-center card-success card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
+                <div class="card-block">
+                    <h4 class="card-title">Humditity</h4>
+                    <h6 class="card-subtitle text-muted">Moon disappears!</h6>
+                </div>
+                <div class="card-block">
+                    <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 110px;" />
+                    <h4 class="card-title saving" id="loading">Waiting<span>.</span><span>.</span><span>.</span></h4>
+                    <h4 class="card-title" id="returnhumd"></h4>
+                </div>
+                <div class="card-block">
+                    <p class="card-text">
+                        Some quick example text to build on the card title and make up the bulk of the card's content.
+                    </p>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </body>

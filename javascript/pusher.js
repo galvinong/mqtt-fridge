@@ -13,31 +13,32 @@ var io = require('socket.io').listen(5000);
 // create a mqtt client object and connect to the mqtt broker
 var client = mqtt.connect('mqtt://127.0.0.1/');
 
-// TODO: Add switch statement to check whether topic exists
 io.on('connection', function (socket) {
-    console.log('user connected');
-    // socket connection indicates what mqtt topic to subscribe to in a data topic
+    // Recieves subscribe message, sub to a data topic on behalf of browser
+    // TODO: Add switch statement to check whether topic exists
     socket.on('subscribe', function (data) {
         console.log('Subscribing to: ' + data.topic);
         socket.join(data.topic);
         client.subscribe(data.topic);
     });
 
-    // when socket connection publishes a msg, forward to mosquitto
+    // Recieve publish message
     socket.on('publish', function (data) {
         console.log('Publishing to: ' + data.topic);
         client.publish(data.topic, data.payload);
     });
 
+    // Receive disconnect message, report user disconnection
     socket.on('disconnect', function () {
         console.log('user disconnected');
     });
 
 });
 
-// listen to messages coming from the mqtt broker
+// MQTT Client, forward mqtt messages from broker
 client.on('message', function (topic, payload) {
     console.log(topic + "=" + payload);
+    // Send over mqtt messages to browser
     io.sockets.emit('mqtt', {
         'topic': String(topic),
         'payload': String(payload)
