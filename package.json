@@ -4,6 +4,7 @@
   "description": "MQTT Frontend for Fridge",
   "main": "index.js",
   "scripts": {
+    "start": "node javascript/pusher.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -11,14 +12,15 @@
     "url": "git+https://github.com/galvinong/mqtt-fridge.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/galvinong/mqtt-fridge/issues"
   },
   "homepage": "https://github.com/galvinong/mqtt-fridge#readme",
   "dependencies": {
-    "bootstrap": "~3.3.7",
+    "bootstrap": "^4.0.0-alpha.6",
     "jquery": "~3.1.1",
+    "mqtt": "^2.4.0",
     "socket.io": "~1.7.3"
   },
   "devDependencies": {

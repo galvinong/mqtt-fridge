@@ -7,11 +7,18 @@ var sys = require('sys');
 var net = require('net');
 var mqtt = require('mqtt');
 
+const PORT = process.env.PORT || 5000;
+
 // create a socket object that listens on port 5000
-var io = require('socket.io').listen(5000);
+var io = require('socket.io').listen((PORT), () => {
+    console.log('Listening on ${ PORT }');
+});
 
 // create a mqtt client object and connect to the mqtt broker
-var client = mqtt.connect('mqtt://127.0.0.1/');
+var client = mqtt.connect('mqtt://m20.cloudmqtt.com/', {
+    username: 'blazerflamer',
+    password: 'rEFhbzjpJJEY'
+});
 
 io.on('connection', function (socket) {
     // Recieves subscribe message, sub to a data topic on behalf of browser
