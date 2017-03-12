@@ -16,14 +16,6 @@
 
     <!-- Socket handling script, gets live updates from mosquitto through socket.io  -->
     <script type="text/javascript">
-        bootcards.init({
-            offCanvasBackdrop: false,
-            offCanvasHideOnMainClick: false,
-            enableTabletPortraitMode: false,
-            disableRubberBanding: false,
-            disableBreakoutSelector: 'a.no-break-out'
-        });
-
         // Create connection to socket.io on server
         var socket = io.connect('http://192.168.1.107:5000');
         socket.on('connect', function() {
