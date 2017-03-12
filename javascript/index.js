@@ -1,7 +1,7 @@
 var http = require('http'),
     fs = require('fs');
 
-fs.readFile('./iotdemo.html', function (err, html) {
+fs.readFile('../iotdemo.html', function (err, html) {
     if (err) {
         throw err;
     }
