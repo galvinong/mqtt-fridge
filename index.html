@@ -15,10 +15,11 @@
     <script type="text/javascript" src="javascript/socket.io.min.js"></script>
     <script type="text/javascript" src="javascript/tether.min.js"></script>
     <script type="text/javascript" src="javascript/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" ></script>
 
 
     <!-- Socket handling script, gets live updates from mosquitto through socket.io  -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         // Create connection to socket.io on server
         var socket = io.connect('http://192.168.1.107:5000');
         socket.on('connect', function() {
@@ -41,6 +42,46 @@
                 topic: 'RF24SN/in/1/2'
             })
         });
+    </script> -->
+    <script type="text/javascript">
+    // Create a client instance
+    client = new Paho.MQTT.Client("m20.cloudmqtt.com", 36673, "web_" + parseInt(Math.random() * 100, 10));
+
+    client.onConnectionlost = onConnectionLost;
+    client.onMessageArrived = onMessageArrived;
+    var options = {
+        useSSL: true,
+        userName: "blazerflamer",
+        password: "rEFhbzjpJJEY",
+        onSuccess: onConnect,
+        onFailure: doFail
+    }
+
+    // connect the client
+    client.connect(options);
+
+    // called when the client connects
+    function onConnect() {
+        console.log("onConnect");
+        client.subscribe("RF24SN/in/1/1");
+        client.subscribe("RF24SN/in/1/2");
+    }
+
+    function doFail(e) {
+        console.log(e);
+    }
+
+    // called when the client loses its connection
+    function onConnectionLost(responseObject) {
+        if (responseObject.errorCode !== 0) {
+            console.log("onConnectionLost: " +responseObject.errorMessage);
+        }
+    }
+
+    // called when message arrives
+    function onMessageArrived(message) {
+        console.log("onMessageArrived: " +message.payloadString);
+    }
     </script>
     <!-- When document closes emit a disconnect socket -->
 </head>
