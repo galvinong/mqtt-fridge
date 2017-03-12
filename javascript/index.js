@@ -1,72 +1,48 @@
-// A very basic web server in node.js
-// Stolen from: Node.js for Front-End Developers by Garann Means (p. 9-10)
+var http = require("http"),
+    url = require("url"),
+    path = require("path"),
+    fs = require("fs")
+    port = 8080;
 
-var port = 8000;
-var serverUrl = "127.0.0.1";
+http.createServer(function(request, response) {
 
-var http = require("http");
-var path = require("path");
-var fs = require("fs");
-var checkMimeType = true;
+  var uri = url.parse(request.url).pathname
+    , filename = path.join(process.cwd(), uri);
 
-console.log("Starting web server at " + serverUrl + ":" + port);
+  var contentTypesByExtension = {
+    '.html': "text/html",
+    '.css':  "text/css",
+    '.js':   "text/javascript",
+    '.png':  "image/png",
+    '.jpg':  "image/jpg",
+  };
 
-http.createServer(function (req, res) {
-
-    var now = new Date();
-
-    var filename = req.url || "index.html";
-    var ext = path.extname(filename);
-    var localPath = __dirname;
-    var validExtensions = {
-        ".html": "text/html",
-        ".js": "application/javascript",
-        ".css": "text/css",
-        ".txt": "text/plain",
-        ".jpg": "image/jpeg",
-        ".gif": "image/gif",
-        ".png": "image/png",
-        ".woff": "application/font-woff",
-        ".woff2": "application/font-woff2"
-    };
-
-    var validMimeType = true;
-    var mimeType = validExtensions[ext];
-    if (checkMimeType) {
-        validMimeType = validExtensions[ext] != undefined;
+  fs.exists(filename, function(exists) {
+    if(!exists) {
+      response.writeHead(404, {"Content-Type": "text/plain"});
+      response.write("404 Not Found\n");
+      response.end();
+      return;
     }
 
-    if (validMimeType) {
-        localPath += filename;
-        fs.exists(localPath, function (exists) {
-            if (exists) {
-                console.log("Serving file: " + localPath);
-                getFile(localPath, res, mimeType);
-            } else {
-                console.log("File not found: " + localPath);
-                res.writeHead(404);
-                res.end();
-            }
-        });
+    if (fs.statSync(filename).isDirectory()) filename += '/index.html';
 
-    } else {
-        console.log("Invalid file extension detected: " + ext + " (" + filename + ")")
-    }
+    fs.readFile(filename, "binary", function(err, file) {
+      if(err) {
+        response.writeHead(500, {"Content-Type": "text/plain"});
+        response.write(err + "\n");
+        response.end();
+        return;
+      }
 
-}).listen(port, serverUrl);
-
-function getFile(localPath, res, mimeType) {
-    fs.readFile(localPath, function (err, contents) {
-        if (!err) {
-            res.setHeader("Content-Length", contents.length);
-            if (mimeType != undefined) {
-                res.setHeader("Content-Type", mimeType);
-            }
-            res.statusCode = 200;
-            res.end(contents);
-        } else {
-            res.writeHead(500);
-            res.end();
-        }
+      var headers = {};
+      var contentType = contentTypesByExtension[path.extname(filename)];
+      if (contentType) headers["Content-Type"] = contentType;
+      response.writeHead(200, headers);
+      response.write(file, "binary");
+      response.end();
     });
-}
+  });
+}).listen(parseInt(port, 10));
+
+console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
