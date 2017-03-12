@@ -1,1 +1,1 @@
-web: iotdemo.html
+web: node javascript/index.js
