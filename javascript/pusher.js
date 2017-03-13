@@ -13,10 +13,7 @@ const PORT = process.env.PORT || 5000;
 var io = require('socket.io').listen(PORT);
 
 // create a mqtt client object and connect to the mqtt broker
-var client = mqtt.connect('mqtt://m20.cloudmqtt.com/', {
-    username: 'blazerflamer',
-    password: 'rEFhbzjpJJEY'
-});
+var client = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673');
 
 io.on('connection', function (socket) {
     // Recieves subscribe message, sub to a data topic on behalf of browser

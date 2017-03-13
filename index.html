@@ -65,19 +65,8 @@
     // called when the client connects
     function onConnect() {
         console.log("onConnect");
-        client.subscribe("RF24SN/in/1/1", function () {
-            client.on('message', function(topic, message, packet) {
-                console.log("Received" + message + " on " + topic);
-            });
-        });
-        message = new Paho.MQTT.Message("Hello");
-        message.destinationName = "RF24SN/in/1/1";
-        client.send(message);
-        client.subscribe("RF24SN/in/1/2", function () {
-            client.on('message', function(topic, message, packet) {
-                console.log("Received" + message + " on " + topic);
-            });
-        });
+        client.subscribe("RF24SN/in/1/1", {qos: 0});
+        client.subscribe("RF24SN/in/1/2", {qos: 0});
     }
 
     function doFail(e) {
@@ -93,7 +82,15 @@
 
     // called when message arrives
     function onMessageArrived(message) {
-        console.log("onMessageArrived: " +message);
+        console.log("onMessageArrived: " + message.payloadString + " " + message.destinationName);
+
+        if (message.destinationName == "RF24SN/in/1/1" && message.payloadString !== "NaN") {
+            $('.loading').hide();
+            $('#returntemp').html(message.payloadString);
+        } else if (message.destinationName == "RF24SN/in/1/2" && message.payloadString !== "NaN") {
+            $('.loading').hide();
+            $('#returnhumd').html(message.payloadString);
+        }
     }
     </script>
     <!-- When document closes emit a disconnect socket -->
