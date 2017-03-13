@@ -5,95 +5,13 @@
     <title>MQTT Fridge Demo</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-    <!-- <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
-    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script> -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/tether.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="css/default.css" />
-    <script type="text/javascript" src="javascript/jquery.min.js"></script>
-    <script type="text/javascript" src="javascript/socket.io.min.js"></script>
-    <script type="text/javascript" src="javascript/tether.min.js"></script>
-    <script type="text/javascript" src="javascript/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" ></script>
-
-
-    <!-- Socket handling script, gets live updates from mosquitto through socket.io  -->
-    <!-- <script type="text/javascript">
-        // Create connection to socket.io on server
-        var socket = io.connect('http://192.168.1.107:5000');
-        socket.on('connect', function() {
-            // Recieves mqtt messages and print them out
-            socket.on('mqtt', function(msg) {
-                console.log(msg.topic + ' ' + msg.payload);
-                if (msg.topic == "RF24SN/in/1/1" && msg.payload !== "NaN") {
-                    $('.loading').hide();
-                    $('#returntemp').html(msg.payload);
-                } else if (msg.topic == "RF24SN/in/1/2" && msg.payload !== "NaN") {
-                    $('.loading').hide();
-                    $('#returnhumd').html(msg.payload);
-                }
-            });
-            // Send subscribe message, to which topic
-            socket.emit('subscribe', {
-                topic: 'RF24SN/in/1/1'
-            })
-            socket.emit('subscribe', {
-                topic: 'RF24SN/in/1/2'
-            })
-        });
-    </script> -->
-    <script type="text/javascript">
-    // Create a client instance
-    client = new Paho.MQTT.Client("m20.cloudmqtt.com", 36673, "web_" + parseInt(Math.random() * 100, 10));
-
-    client.onConnectionlost = onConnectionLost;
-    client.onMessageArrived = onMessageArrived;
-    var options = {
-        timeout: 3,
-        useSSL: true,
-        cleanSession: true,
-        userName: "***REMOVED***",
-        password: "***REMOVED***",
-        onSuccess: onConnect,
-        onFailure: doFail
-    }
-
-    // connect the client
-    client.connect(options);
-
-    // called when the client connects
-    function onConnect() {
-        console.log("onConnect");
-        client.subscribe("RF24SN/in/1/1", {qos: 0});
-        client.subscribe("RF24SN/in/1/2", {qos: 0});
-    }
-
-    function doFail(e) {
-        console.log(e);
-    }
-
-    // called when the client loses its connection
-    function onConnectionLost(responseObject) {
-        if (responseObject.errorCode !== 0) {
-            console.log("onConnectionLost: " +responseObject.errorMessage);
-        }
-    }
-
-    // called when message arrives
-    function onMessageArrived(message) {
-        console.log("onMessageArrived: " + message.payloadString + " " + message.destinationName);
-
-        if (message.destinationName == "RF24SN/in/1/1" && message.payloadString !== "NaN") {
-            $('.loading').hide();
-            $('#returntemp').html(message.payloadString);
-        } else if (message.destinationName == "RF24SN/in/1/2" && message.payloadString !== "NaN") {
-            $('.loading').hide();
-            $('#returnhumd').html(message.payloadString);
-        }
-    }
-    </script>
-    <!-- When document closes emit a disconnect socket -->
+    <script type="text/javascript" src="javascript/pahoclient.js"></script>
 </head>
 
 <body class="background-image">
