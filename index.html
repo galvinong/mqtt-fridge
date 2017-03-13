@@ -45,7 +45,7 @@
     </script> -->
     <script type="text/javascript">
     // Create a client instance
-    client = new Paho.MQTT.Client("m20.cloudmqtt.com", 36673, "web_" + parseInt(Math.random() * 100, 10));
+    client = new Paho.MQTT.Client("m20.cloudmqtt.com", 16673, "web_" + parseInt(Math.random() * 100, 10));
 
     client.onConnectionlost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
