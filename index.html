@@ -63,8 +63,19 @@
     // called when the client connects
     function onConnect() {
         console.log("onConnect");
-        client.subscribe("RF24SN/in/1/1");
-        client.subscribe("RF24SN/in/1/2");
+        client.subscribe("RF24SN/in/1/1", function () {
+            client.on('message', function(topic, message, packet) {
+                console.log("Received" + message + " on " + topic);
+            });
+        });
+        message = new Paho.MQTT.Message("Hello");
+        message.destinationName = "RF24SN/in/1/1";
+        client.send(message);
+        client.subscribe("RF24SN/in/1/2", function () {
+            client.on('message', function(topic, message, packet) {
+                console.log("Received" + message + " on " + topic);
+            });
+        });
     }
 
     function doFail(e) {
@@ -80,7 +91,7 @@
 
     // called when message arrives
     function onMessageArrived(message) {
-        console.log("onMessageArrived: " +message.payloadString);
+        console.log("onMessageArrived: " +message);
     }
     </script>
     <!-- When document closes emit a disconnect socket -->

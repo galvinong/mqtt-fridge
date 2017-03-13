@@ -1,7 +1,7 @@
 var http = require("http"),
     url = require("url"),
     path = require("path"),
-    fs = require("fs")
+    fs = require("fs"),
     port = process.env.PORT || 8080;
 
 http.createServer(function(request, response) {
