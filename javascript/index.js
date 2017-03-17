@@ -11,25 +11,12 @@ const port = process.env.PORT || 8080
 // For MongoDB connection
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
+<<<<<<< HEAD
 // mqtt client create to subscribe
 
-
-mongoose.connect(mongodbURI, function(err, res) {
-	if (err) {
-		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
-	} else {
-		console.log('Success connected to: ' + mongodbURI)
-
-		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
-		let mqttClient = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
-
-		// Subscribes to all sub channel under deviceroot
-		mqttClient.subscribe(deviceRoot + '+')
-
-		// Calls function insertEvent when message arrives
-		mqttClient.on('message', insertEvent)
-	}
-})
+=======
+// Creates a model based off the schema
+let SensorInput = mongoose.model('RF24SN', sensorSchema)
 
 // Schema for the sensor input using mongoose
 const sensorSchema = new mongoose.Schema({
@@ -39,9 +26,29 @@ const sensorSchema = new mongoose.Schema({
 		created: Date,
 	},
 })
+>>>>>>> d33c1a1bbdf187c0b8167675b428081106a11633
 
-// Creates a model based off the schema
-let SensorInput = mongoose.model('RF24SN', sensorSchema)
+mongoose.connect(mongodbURI, function(err, res) {
+	if (err) {
+		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
+	} else {
+		console.log('Success connected to: ' + mongodbURI)
+
+		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
+<<<<<<< HEAD
+		let mqttClient = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
+=======
+		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
+>>>>>>> d33c1a1bbdf187c0b8167675b428081106a11633
+
+		// Subscribes to all sub channel under deviceroot
+		mqttClient.subscribe(deviceRoot + '+')
+
+		// Calls function insertEvent when message arrives
+		mqttClient.on('message', insertEvent)
+	}
+})
+
 
 /**
  * Handles message arrvied from broker and add to mongodb
