@@ -1,15 +1,14 @@
+'use strict'
 // Nodejs web server init file, serves html and images
 let http = require('http')
 let url = require('url')
 let path = require('path')
 let fs = require('fs')
 let mqtt = require('mqtt')
-// let mongodb = require('mongodb')
 let mongoose = require('mongoose')
 const port = process.env.PORT || 8080
-const mongoport = process.env.PORT || 5000
 
-// For mongodb connection
+// For MongoDB connection
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
 // mqtt client create to subscribe
@@ -19,11 +18,10 @@ mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
 	} else {
-		console.log('Success connected to: ' + uriString)
+		console.log('Success connected to: ' + mongodbURI)
 
-		// Create a mqtt client and connect it
-		// TODO: probably need to add the username and password
-		client = mqtt.createClient(mongoport, localhost)
+		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
+		client = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
 
 		// Subscribes to all sub channel under deviceroot
 		client.subscribe(deviceRoot + '+')
@@ -37,7 +35,7 @@ mongoose.connect(mongodbURI, function(err, res) {
 const sensorSchema = new mongoose.Schema({
 	sensor: String,
 	events: {
-		value: payload,
+		value: Number,
 		created: Date,
 	},
 })

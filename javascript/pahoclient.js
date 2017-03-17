@@ -29,6 +29,9 @@ function onConnect() {
 	client.subscribe('RF24SN/in/1/2', {qos: 0})
 };
 
+/**
+* @param {error} e prints out error message when client fails
+**/
 function doFail(e) {
 	console.log(e)
 };
