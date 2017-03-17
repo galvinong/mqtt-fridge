@@ -11,10 +11,7 @@ const port = process.env.PORT || 8080
 // For MongoDB connection
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
-<<<<<<< HEAD
-// mqtt client create to subscribe
 
-=======
 // Creates a model based off the schema
 let SensorInput = mongoose.model('RF24SN', sensorSchema)
 
@@ -26,8 +23,6 @@ const sensorSchema = new mongoose.Schema({
 		created: Date,
 	},
 })
->>>>>>> d33c1a1bbdf187c0b8167675b428081106a11633
-
 mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
@@ -35,11 +30,7 @@ mongoose.connect(mongodbURI, function(err, res) {
 		console.log('Success connected to: ' + mongodbURI)
 
 		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
-<<<<<<< HEAD
-		let mqttClient = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
-=======
-		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
->>>>>>> d33c1a1bbdf187c0b8167675b428081106a11633
+ mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
 
 		// Subscribes to all sub channel under deviceroot
 		mqttClient.subscribe(deviceRoot + '+')
