@@ -12,7 +12,7 @@ const port = process.env.PORT || 8080
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
 // mqtt client create to subscribe
-let client
+
 
 mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
@@ -21,13 +21,13 @@ mongoose.connect(mongodbURI, function(err, res) {
 		console.log('Success connected to: ' + mongodbURI)
 
 		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
-		client = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
+		let mqttClient = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
 
 		// Subscribes to all sub channel under deviceroot
-		client.subscribe(deviceRoot + '+')
+		mqttClient.subscribe(deviceRoot + '+')
 
 		// Calls function insertEvent when message arrives
-		client.on('message', insertEvent)
+		mqttClient.on('message', insertEvent)
 	}
 })
 
