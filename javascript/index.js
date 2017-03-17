@@ -11,25 +11,8 @@ const port = process.env.PORT || 8080
 // For MongoDB connection
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
-// mqtt client create to subscribe
-let client
-
-mongoose.connect(mongodbURI, function(err, res) {
-	if (err) {
-		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
-	} else {
-		console.log('Success connected to: ' + mongodbURI)
-
-		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
-		client = mqtt.connect('m20.cloudmqtt.com:16673:***REMOVED***:***REMOVED***')
-
-		// Subscribes to all sub channel under deviceroot
-		client.subscribe(deviceRoot + '+')
-
-		// Calls function insertEvent when message arrives
-		client.on('message', insertEvent)
-	}
-})
+// Creates a model based off the schema
+let SensorInput = mongoose.model('RF24SN', sensorSchema)
 
 // Schema for the sensor input using mongoose
 const sensorSchema = new mongoose.Schema({
@@ -40,8 +23,23 @@ const sensorSchema = new mongoose.Schema({
 	},
 })
 
-// Creates a model based off the schema
-let SensorInput = mongoose.model('RF24SN', sensorSchema)
+mongoose.connect(mongodbURI, function(err, res) {
+	if (err) {
+		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
+	} else {
+		console.log('Success connected to: ' + mongodbURI)
+
+		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
+		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
+
+		// Subscribes to all sub channel under deviceroot
+		mqttClient.subscribe(deviceRoot + '+')
+
+		// Calls function insertEvent when message arrives
+		mqttClient.on('message', insertEvent)
+	}
+})
+
 
 /**
  * Handles message arrvied from broker and add to mongodb
