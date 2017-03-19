@@ -1,16 +1,5 @@
-(function () {
-'use strict';
-
-let SensorInput = require('index/SensorInput');
-
-// Find data
-SensorInput.find({sensor: 1}, function(err, sensorData) {
-	if (err) {
-		return console.error(err)
-	}
-	console.log(sensorData);
-});
-
+// var mongoose = require('mongoose')
+// var db = mongoose.createConnection('localhost', 'test')
 const data = {
 	labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 	datasets: [
@@ -35,13 +24,11 @@ const data = {
 			data: [28, 48, 40, 19, 86, 27, 90],
 		},
 	],
-};
+}
 
-let tempCtx = document.getElementById('tempChartID').getContext('2d');
+let tempCtx = document.getElementById('tempChartID').getContext('2d')
 let tempChart = new Chart(tempCtx, {
 	type: 'line',
 	data: data,
 	options: options,
-});
-
-}());
+})

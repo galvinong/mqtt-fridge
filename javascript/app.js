@@ -12,9 +12,6 @@ const port = process.env.PORT || 8080
 const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 const deviceRoot = 'RF24SN/in/1/'
 
-// Creates a model based off the schema
-let SensorInput = mongoose.model('RF24SN', sensorSchema)
-
 // Schema for the sensor input using mongoose
 const sensorSchema = new mongoose.Schema({
 	sensor: String,
@@ -23,23 +20,26 @@ const sensorSchema = new mongoose.Schema({
 		created: Date,
 	},
 })
+
+// Creates a model based off the schema
+let SensorInput = mongoose.model('RF24SN', sensorSchema)
+
 mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
 	} else {
 		console.log('Success connected to: ' + mongodbURI)
 
-		// Create a mqtt client and connect it, PROBLEM WITH THIS CONNECT
- mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
-
-		// Subscribes to all sub channel under deviceroot
+		// Create a mqtt client and connect it
+		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
+		console.log('MQTT connected')
+			// Subscribes to all sub channel under deviceroot
 		mqttClient.subscribe(deviceRoot + '+')
 
-		// Calls function insertEvent when message arrives
+			// Calls function insertEvent when message arrives
 		mqttClient.on('message', insertEvent)
 	}
 })
-
 
 /**
  * Handles message arrvied from broker and add to mongodb
@@ -47,19 +47,22 @@ mongoose.connect(mongodbURI, function(err, res) {
  * @param {string} payload payload that the topic has, sent periodically
  */
 function insertEvent(topic, payload) {
-	let key = topic.replace(deviceRoot, '')
-	let sensor = new SensorInput({
-		sensor: key,
-		events: {
-			value: payload,
-			created: new Date(),
-		},
-	})
-	sensor.save(function(err) {
-		if (err) {
-			console.log('Error saving to mongodb')
-		}
-	})
+	// Check payload whether 0 or nan, don't insert
+	if (payload !== NaN ) {
+		let key = topic.replace(deviceRoot, '')
+		let sensor = new SensorInput({
+			sensor: key,
+			events: {
+				value: payload,
+				created: new Date(),
+			},
+		})
+		sensor.save(function(err) {
+			if (err) {
+				console.log('Error saving to mongodb')
+			}
+		})
+	}
 }
 
 // HTTP Page serving code
@@ -106,3 +109,6 @@ http.createServer(function(request, response) {
 }).listen(parseInt(port, 10))
 
 console.log('Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown')
+
+// Make it available in node app
+module.exports = SensorInput

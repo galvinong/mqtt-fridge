@@ -21,8 +21,8 @@ let options = {
 client.connect(options)
 
 /**
-* called when the client connects
-**/
+ * [onConnect called when the client connects]
+ */
 function onConnect() {
 	console.log('onConnect')
 	client.subscribe('RF24SN/in/1/1', {qos: 0})
@@ -30,16 +30,17 @@ function onConnect() {
 };
 
 /**
-* @param {error} e prints out error message when client fails
-**/
+ * [doFail description]
+ * @param  {[error]} e [prints out error message when client fails]
+ **/
 function doFail(e) {
 	console.log(e)
 };
 
 /**
-* called when the client loses its connection
-* @param {response} responseObject returns error object, print error message
-**/
+ * [onConnectionLost: called when the client loses its connection]
+ * @param  {[responseObject]} responseObject [returns error object]
+ */
 function onConnectionLost(responseObject) {
 	if (responseObject.errorCode !== 0) {
 		console.log('onConnectionLost: ' + responseObject.errorMessage)
@@ -47,9 +48,9 @@ function onConnectionLost(responseObject) {
 };
 
 /**
-* called when message arrives
-* @param {msg} message sort depending on the message
-**/
+ * [onMessageArrived called when message arrives]
+ * @param  {[message]} message [message contains topic and payload]
+ */
 function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
 		let payload = message.payloadString
