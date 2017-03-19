@@ -2,7 +2,7 @@
   "name": "mqtt-fridge",
   "version": "1.0.0",
   "description": "MQTT Frontend for Fridge",
-  "main": "javascript/index.js",
+  "main": "javascript/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/galvinong/mqtt-fridge#readme",
   "dependencies": {
-    "chart.js": "^2.5.0",
     "mongodb": "^2.2.24",
     "mongoose": "^4.9.0",
     "mqtt": "^2.4.0",
