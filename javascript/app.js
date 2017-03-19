@@ -1,5 +1,5 @@
 'use strict'
-// Nodejs web server init file, serves html and images
+// Expressjs web server
 let http = require('http')
 let url = require('url')
 let path = require('path')

@@ -2,7 +2,7 @@
   "name": "mqtt-fridge",
   "version": "1.0.0",
   "description": "MQTT Frontend for Fridge",
-  "main": "index.js",
+  "main": "javascript/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,11 +17,9 @@
   },
   "homepage": "https://github.com/galvinong/mqtt-fridge#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.6",
-    "jquery": "~3.1.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.9.0",
-    "mqtt": "^2.4.0",
+    "mqtt": "^2.4.0"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
