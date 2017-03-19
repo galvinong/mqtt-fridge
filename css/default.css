@@ -15,9 +15,22 @@
     background-size: cover;
 }
 
-.card-image {
+.padding-top {
     padding-top: 20px;
 }
+
+.padding-bottom {
+    padding-bottom: 30px;
+}
+
+.padding-left {
+    padding-left: 20px;
+}
+
+.padding-right {
+    padding-right: 20px;
+}
+
 @keyframes blink {
     /**
      * At the start of the animation the dot
