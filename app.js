@@ -51,6 +51,7 @@ app.use(function(err, req, res, next) {
 	})
 })
 
-console.log('Express server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown')
+app.listen(port)
+console.log('Express server running at\n  => http://localhost:' + port + '/\nCTRL + C to shutdown')
 
 module.exports = app

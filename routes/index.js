@@ -41,9 +41,13 @@ router.get('/', function(request, response) {
 	response.sendfile('index.html')
 })
 
-router.get('/get-data', function(req, res, next) {
-	SensorInput.find().then(function(sensorItem) {
-		res.render('index', {items: sensorItem})
+router.get('/get-data/:sensor_id', function(req, res, next) {
+	SensorInput.find({sensor: req.params.sensor_id}, function(err, sensorItem) {
+		if (err) {
+			res.send(err)
+		} else {
+			res.json(sensorItem)
+		}
 	})
 })
 
