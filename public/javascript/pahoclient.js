@@ -1,4 +1,6 @@
 // Socket handling script, gets live updates from mosquitto through socket.io
+let tempChartUpdate
+let humdChartUpdate
 // Create a client instance
 client = new Paho.MQTT.Client(
   'm20.cloudmqtt.com',
@@ -57,8 +59,10 @@ function onMessageArrived(message) {
 		console.log(payload)
 		$('.loading').hide()
 		if (message.destinationName == 'RF24SN/in/1/1') {
+			tempChartUpdate = payload
 			$('#returntemp').html(payload)
 		} else if (message.destinationName == 'RF24SN/in/1/2') {
+			humdChartUpdate = payload
 			$('#returnhumd').html(payload)
 		}
 	}

@@ -12,7 +12,6 @@ mongoose.connect(mongodbURI, function(err, res) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
 	} else {
 		console.log('Success connected to: ' + mongodbURI)
-
 		// Create a mqtt client and subscribe to all under deviceroot
 		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
 		mqttClient.subscribe(deviceRoot + '+')
@@ -41,12 +40,12 @@ router.get('/', function(request, response) {
 	response.sendfile('index.html')
 })
 
-router.get('/get-data/:sensor_id', function(req, res, next) {
-	SensorInput.find({sensor: req.params.sensor_id}, function(err, sensorItem) {
+router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
+	SensorInput.find({sensor: req.params.sensor_id}).where('events.created').gt(req.params.time_created).exec(function(err, sensorItem) {
 		if (err) {
 			res.send(err)
 		} else {
-			res.json(sensorItem)
+			res.send(sensorItem)
 		}
 	})
 })
