@@ -55,7 +55,7 @@ function onConnectionLost(responseObject) {
  */
 function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
-		let payload = message.payloadString
+		let payload = Math.floor(message.payloadString * 100) / 100
 		console.log(payload)
 		$('.loading').hide()
 		if (message.destinationName == 'RF24SN/in/1/1') {

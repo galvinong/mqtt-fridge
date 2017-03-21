@@ -14,6 +14,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
     <script type="text/javascript" src="javascript/pahoclient.js"></script>
+    <script type="text/javascript" src="javascript/client.js"></script>
 </head>
 
 <body class="background-image">
@@ -70,7 +71,7 @@
             <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
                 <div class="card text-center card-inverse col-md-4 col-md-offset-4" style="max-width: 550px;">
                     <canvas id="chartID"></canvas>
-                    <script type="text/javascript" src="javascript/client.js"></script>
+                    <script type="text/javascript">$(document).ready(drawLineChart())</script>
                 </div>
             </div>
         </div>
