@@ -52,7 +52,7 @@ const data = {
 			pointRadius: 1,
 			pointHitRadius: 10,
 			data: tempData,
-			spanGaps: false,
+			spanGaps: true,
 		},
 		{
 			label: 'Humidity',
@@ -74,18 +74,17 @@ const data = {
 			pointRadius: 1,
 			pointHitRadius: 10,
 			data: humdData,
-			spanGaps: false,
+			spanGaps: true,
 		},
 	],
 }
-
+// TODO: use the same dataset but draw differently on another chart, probably look at chart options
 /**
  * [drawLineChart Draws the line chart from mongodb mqtt
  */
-function drawLineChart() {
-	// latestLabel = data.labels[labels.length]
+window.onload = function() {
 	let chartCtx = document.getElementById('chartID').getContext('2d')
-	let lineChart = new Chart(chartCtx, {
+	window.lineChart = new Chart(chartCtx, {
 		type: 'line',
 		data: data,
 		options: {
@@ -102,6 +101,6 @@ function drawLineChart() {
 		lineChart.data.datasets[1].data[labels.length] = humdChartUpdate
 		lineChart.data.labels[labels.length] = latestLabel
 		console.log(latestLabel + ' ' + tempChartUpdate + ' ' + humdChartUpdate)
-		lineChart.update()
+		window.lineChart.update()
 	}, 10000)
 }

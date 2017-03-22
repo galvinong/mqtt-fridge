@@ -8,7 +8,7 @@ let logger = require('morgan')
 let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let routes = require('./routes/index')
-
+let newrelic = require('newrelic')
 let app = express()
 const port = process.env.PORT || 8080
 
