@@ -40,6 +40,7 @@ router.get('/', function(request, response) {
 	response.sendfile('index.html')
 })
 
+// API for database retrieval, sensor ID then moment js time format
 router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 	SensorInput.find({sensor: req.params.sensor_id}).where('events.created').gt(req.params.time_created).exec(function(err, sensorItem) {
 		if (err) {
@@ -73,6 +74,5 @@ function insertEvent(topic, payload) {
 		})
 	}
 }
-
 
 module.exports = router

@@ -25,7 +25,8 @@
     "mongoose": "^4.9.0",
     "morgan": "^1.8.1",
     "mqtt": "^2.4.0",
-    "newrelic": "^1.38.1"
+    "newrelic": "^1.38.1",
+    "push.js": "0.0.12"
   },
   "devDependencies": {
     "eslint": "^3.17.1",

@@ -1,4 +1,4 @@
-// Socket handling script, gets live updates from mosquitto through socket.io
+// Socket handling script, gets live updates from mosquitto through websockets
 let tempChartUpdate
 let humdChartUpdate
 // Create a client instance
@@ -57,6 +57,9 @@ function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
 		let payload = Math.floor(message.payloadString * 100) / 100
 		console.log(payload)
+
+		// Push.js notifications here
+		
 		$('.loading').hide()
 		if (message.destinationName == 'RF24SN/in/1/1') {
 			tempChartUpdate = payload

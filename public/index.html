@@ -1,46 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <title>MQTT Fridge Demo</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/default.css" />
-    <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js" ></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
-    <script type="text/javascript" src="javascript/pahoclient.js"></script>
-    <script type="text/javascript" src="javascript/client.js"></script>
-</head>
+    <head>
+        <title>MQTT Fridge Demo</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="css/default.css"/>
+        <script src="https://use.fontawesome.com/d9bd4b5968.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.13/push.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+        <script type="text/javascript" src="javascript/pahoclient.js"></script>
+        <script type="text/javascript" src="javascript/client.js"></script>
+    </head>
 
-<body class="background-image">
+    <body class="background-image">
         <div class="jumbotron color-jumbotron text-center">
             <div class="d-flex justify-content-center">
-                <img class="img-responsive" src="img/fridge.png" style="max-height:175px;" />
+                <img class="img-responsive" src="img/fridge.png" style="max-height:175px;"/>
                 <div>
                     <h1>Fridge IoT Sensor</h1>
-                    <h7>MQTT Websockets Demo</h7>
+                    <h7>MQTT Websockets Dashboard</h7>
                 </div>
             </div>
         </div>
+        <!-- Button dropdown toggle  -->
+        <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
+            <!-- dropdown class script -->
+            <div class="dropdown">
+                <button type="button" class="btn btn-danger col-md-12" id="dropdownBtn" data-toggle="collapse" data-target=".js-navbar-collapse">
+                    <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                </button>
+            </div>
 
-        <div class="container-fluid mx-auto">
-
-            <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
-
-                <!-- Temperature Card Block -->
-                <div class="card text-center card-danger card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
-                    <div class="card-block">
-                        <h4 class="card-title">Temperature</h4>
-                        <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
+            <!-- Start of dropdown menu content -->
+            <div class="collapse navbar-collapse js-navbar-collapse">
+                <div class="card card-danger card-inverse" id="dropdown-card">
+                    <div class="form-group row">
+                        <label for="example-text-input" class="col-2 col-form-label">Title</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="Temp/Humd/Range" id="example-text-input">
+                        </div>
                     </div>
-                    <div class="card-block">
-                        <img class="center-block card-img-top img-responsive card-image" src="img/temp-icon.png" alt="Card Image cap" style="max-width: 70px;" />
-                        <h6 class="saving loading card-title">Waiting<span>.</span><span>.</span><span>.</span></h4>
+
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-2 col-form-label">Location</label>
+                        <div class="col-10">
+                            <input class="form-control" type="search" value="Top shelf fridge" id="example-search-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-2 col-form-label">C/N Name</label>
+                        <div class="col-10">
+                            <input class="form-control" type="search" value="RF24SN/1/3" id="example-search-input">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="example-search-input" class="col-2 col-form-label">Warning Range</label>
+                        <div class="col-10">
+                            <input class="form-control" type="search" value="50" id="example-search-input">
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-success col-md-12" id="addCard"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Add Card </button>
+                    <button type="button" class="btn btn-danger col-md-12" id="cancelCard"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancel</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <!-- <div class="container-fluid mx-auto"> -->
+    <!-- Center whole card grid -->
+    <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
+        <!-- Start of card grid  -->
+        <div class="card-columns" style="max-width: 850px">
+            <!-- Temperature Card Block -->
+            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
+                <div class="card-block">
+                    <h4 class="card-title">Temperature</h4>
+                    <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
+                </div>
+                <div class="card-block">
+                    <!-- <img class="center-block card-img-top img-fluid card-image" src="img/temp-icon.png" alt="Card Image cap" style="max-width: 70px;"/> -->
+                    <h6 class="saving loading card-title">Waiting<span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                    </h6>
                     <h4 class="card-title" id="returntemp"></h4>
                 </div>
                 <div class="card-block">
@@ -50,14 +103,17 @@
                 </div>
             </div>
             <!-- Humidity Card Block -->
-            <div class="card text-center card-success card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
+            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
                 <div class="card-block">
-                    <h4 class="card-title">Humditity</h4>
+                    <h4 class="card-title">Humidity</h4>
                     <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
-                    </div>
-                    <div class="card-block">
-                        <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 80px;" />
-                        <h6 class="saving loading card-title">Waiting<span>.</span><span>.</span><span>.</span></h4>
+                </div>
+                <div class="card-block">
+                    <!-- <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 80px;"/> -->
+                    <h6 class="saving loading card-title">Waiting<span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                    </h6>
                     <h4 class="card-title" id="returnhumd"></h4>
                 </div>
                 <div class="card-block">
@@ -66,14 +122,39 @@
                     </p>
                 </div>
             </div>
-            </div>
-            <!-- Chartjs live updates block  -->
-            <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
-                <div class="card text-center card-inverse col-md-4 col-md-offset-4" style="max-width: 550px;">
-                    <canvas id="chartID"></canvas>
+
+            <!-- Card Block -->
+            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
+                <div class="card-block">
+                    <h4 class="card-title">Space Percentage</h4>
+                    <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
+                </div>
+                <div class="card-block">
+                    <!-- <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 80px;"/> -->
+                    <h6 class="saving loading card-title">Waiting<span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                    </h6>
+                    <h4 class="card-title" id="returnhumd"></h4>
+                </div>
+                <div class="card-block">
+                    <p class="card-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.
+                    </p>
                 </div>
             </div>
+
         </div>
 
+    </div>
+    <!-- Chartjs live updates block  -->
+    <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
+        <div class="card text-center card-inverse col-md-4 col-md-offset-4" style="max-width: 550px;">
+            <canvas id="chartID"></canvas>
+        </div>
+    </div>
+    <!-- </div> -->
+
 </body>
+
 </html>
