@@ -150,7 +150,4 @@ function insertEvent(topic, payload) {
 	}
 }
 
-
-function sendNotification
-
 module.exports = router
