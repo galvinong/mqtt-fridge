@@ -106,12 +106,12 @@ function insertEvent(topic, payload) {
 			}
 		})
 		// Add onesignal code here
-		let message = {
-			app_id: '***REMOVED***',
-			contents: {'en': 'English Message'},
-			included_segments: ['All'],
-		}
-		sendNotification(message)
+		// let message = {
+		// 	app_id: '***REMOVED***',
+		// 	contents: {'en': 'English Message'},
+		// 	included_segments: ['All'],
+		// }
+		// sendNotification(message)
 	}
 }
 
