@@ -6,6 +6,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link rel="manifest" href="/manifest.json">
         <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/default.css"/>
         <script src="https://use.fontawesome.com/d9bd4b5968.js"></script>
@@ -20,6 +21,18 @@
         <script type="text/javascript" src="javascript/templates.js"></script>
         <script type="text/javascript" src="javascript/pahoclient.js"></script>
         <script type="text/javascript" src="javascript/client.js"></script>
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async></script>
+        <script>
+            var OneSignal = window.OneSignal || [];
+            OneSignal.push([
+                "init", {
+                    appId: '***REMOVED***',
+                    notifyButton: {
+                        enable: true/* Set to false to hide */
+                    }
+                }
+            ])
+        </script>
     </head>
 
     <body class="background-image">
@@ -93,13 +106,12 @@
         <!-- Cards container -->
         <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
             <div id="card-content" class="card-columns" style="max-width: 850px">
-            <!-- Merge the template with the data, and place it on the page -->
-            <script type="text/javascript">
-                $('#card-content').append(template)
-            </script>
+                <!-- Merge the template with the data, and place it on the page -->
+                <script type="text/javascript">
+                    $('#card-content').append(template)
+                </script>
+            </div>
         </div>
-        </div>
-
 
         <!-- TODO: fix scaling on mobile phone  -->
         <!-- Chartjs live updates block  -->

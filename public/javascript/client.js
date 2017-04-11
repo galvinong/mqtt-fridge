@@ -136,6 +136,8 @@ window.onload = function() {
 			lineChart.data.datasets[1].data[labels.length] = returnhumdValue
 			lineChart.data.labels[labels.length] = latestLabel
 			window.lineChart.update()
+
+			// Add onesignal code here
 		}
 	}, 10000)
 }

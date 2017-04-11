@@ -1,0 +1,8 @@
+{
+  "name": "Internet of Things Smart Fridge",
+  "short_name": "IoTFridge",
+  "start_url": "/",
+  "display": "standalone",
+  "gcm_sender_id": "***REMOVED***",
+  "DO_NOT_CHANGE_GCM_SENDER_ID": "Do not change the GCM Sender ID"
+}

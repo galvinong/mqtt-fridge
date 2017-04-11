@@ -15,7 +15,7 @@ templates['card-template'] = template({"1":function(container,depth0,helpers,par
     + alias4(((helper = (helper = helpers.unitvalue || (depth0 != null ? depth0.unitvalue : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"unitvalue","hash":{},"data":data}) : helper)))
     + "</span>\n                </span>\r\n            </div>\r\n            <div class=\"card-block\">\r\n                <p class=\"card-text\">\r\n                    "
     + alias4(((helper = (helper = helpers.cardtext || (depth0 != null ? depth0.cardtext : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"cardtext","hash":{},"data":data}) : helper)))
-    + "\r\n                </p>\r\n                <button class=\"btn col-md-12\" id=\""
+    + "\r\n                </p>\r\n                <button type=\"button\" class=\"btn btn-secondary col-md-12\" id=\""
     + alias4(((helper = (helper = helpers.buttonValue || (depth0 != null ? depth0.buttonValue : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"buttonValue","hash":{},"data":data}) : helper)))
     + "\">\r\n                    <i class=\"fa fa-trash\" aria-hidden=\"true\"></i>\r\n                </button>\r\n                <script>\r\n                $('#"
     + alias4(((helper = (helper = helpers.buttonValue || (depth0 != null ? depth0.buttonValue : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"buttonValue","hash":{},"data":data}) : helper)))
