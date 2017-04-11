@@ -6,13 +6,6 @@ let mqtt = require('mqtt')
 let https = require('https')
 
 // For OneSignal integration, function sending push notifications to client
-//
-let message = {
-	app_id: '***REMOVED***',
-	contents: {'en': 'Warning: value above range!'},
-	included_segments: ['All'],
-}
-
 let sendNotification = function(data) {
 	let headers = {
 		'Content-Type': 'application/json; charset=utf-8',
@@ -94,14 +87,12 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 let channelNames = {
 	channel: [
 		{
-			id: 'RF24SN/in/1/1',
-			title: 'temperature',
+			title: 'RF24SN/in/1/1',
 			compare: '>',
 			warning: '20',
 		}, {
-			id: 'RF24SN/in/1/2',
-			title: 'humidity',
-			compare: '<',
+			title: 'RF24SN/in/1/2',
+			comapre: '<',
 			warning: '50',
 		},
 	],
@@ -129,8 +120,27 @@ function insertEvent(topic, payload) {
 			}
 		})
 		console.log(topic + ' ' + payload)
-		checkNotification(topic, payload)
+		// Add onesignal code here
 
+		if (topic === 'RF24SN/in/1/1') {
+			if (payload > 20) {
+				let message = {
+					app_id: '***REMOVED***',
+					contents: {'en': 'Warning: Temperature abnormal!' + payload},
+					included_segments: ['All'],
+				}
+				sendNotification(message)
+			}
+		} else if (topic === 'RF24SN/in/1/2') {
+			if (payload < 50) {
+				let message = {
+					app_id: '***REMOVED***',
+					contents: {'en': 'Warning: Humidity abnormal!' + payload},
+					included_segments: ['All'],
+				}
+				sendNotification(message)
+			}
+		}
 		// let message = {
 		// 	app_id: '***REMOVED***',
 		// 	contents: {'en': 'English Message'},
@@ -140,27 +150,7 @@ function insertEvent(topic, payload) {
 	}
 }
 
-/**
- * [checkNotification Handles checking for onesignal notifications]
- * @param  {[type]} topic   [splits based on the channel defined]
- * @param  {[type]} payload [apply checking based on the payload]
- */
-function checkNotification(topic, payload) {
-	for (let i = 0; i < channelNames.channel.length; i++) {
-		if (topic == channelNames.channel[i].title) {
-			if (channelNames.channel[i].compare = '>') {
-				if (payload > channelNames.channel[i].warning) {
-					message.contents = {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range!' + payload}
-					sendNotification(message)
-				}
-			} else if (channelNames.channel[i].compare = '<') {
-				if (payload < channelNames.channel[i].warning) {
-					message.contents = {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range!' + payload}
-					sendNotification(message)
-				}
-			}
-		}
-	}
-}
+
+function sendNotification
 
 module.exports = router
