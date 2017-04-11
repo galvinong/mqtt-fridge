@@ -52,7 +52,7 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 })
 
 /**
- * Handles message arrvied from broker and add to mongodb
+ * Handles message arrived from broker and add to mongodb
  * @param {string} topic topic that the client is subscribed to
  * @param {string} payload payload that the topic has, sent periodically
  */

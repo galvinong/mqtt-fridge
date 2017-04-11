@@ -18,14 +18,14 @@ let cardsData = {
 			returndata: 'returntemp',
 			unitvalue: '°C',
 			cardtext: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.',
-			buttonValue: 'btnTemperature'
+			buttonValue: 'btnTemperature',
 		}, {
 			title: 'Humidity',
 			location: 'Top Shelf',
 			returndata: 'returnhumd',
 			unitvalue: '%',
 			cardtext: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.',
-			buttonValue: 'btnHumidity'
+			buttonValue: 'btnHumidity',
 		},
 	],
 }
@@ -138,6 +138,44 @@ window.onload = function() {
 			window.lineChart.update()
 
 			// Add onesignal code here
+			let sendNotification = function(data) {
+				let headers = {
+					'Content-Type': 'application/json; charset=utf-8',
+					'Authorization': 'Basic ***REMOVED***',
+				}
+
+				let options = {
+					host: 'onesignal.com',
+					port: 443,
+					path: '/api/v1/notifications',
+					method: 'POST',
+					headers: headers,
+				}
+
+				let https = require('https')
+				let req = https.request(options, function(res) {
+					res.on('data', function(data) {
+						console.log('Response:')
+						console.log(JSON.parse(data))
+					})
+				})
+
+				req.on('error', function(e) {
+					console.log('ERROR:')
+					console.log(e)
+				})
+
+				req.write(JSON.stringify(data))
+				req.end()
+			}
+
+			let message = {
+				app_id: '***REMOVED***',
+				contents: {'en': 'English Message'},
+				included_segments: ['All'],
+			}
+
+			sendNotification(message)
 		}
 	}, 10000)
 }

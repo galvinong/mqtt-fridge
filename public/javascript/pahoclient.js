@@ -1,6 +1,4 @@
 // Socket handling script, gets live updates from mosquitto through websockets
-// let tempChartUpdate
-// let humdChartUpdate
 // Create a client instance
 client = new Paho.MQTT.Client(
   'm20.cloudmqtt.com',
