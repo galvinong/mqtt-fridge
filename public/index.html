@@ -6,6 +6,7 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/default.css"/>
         <script src="https://use.fontawesome.com/d9bd4b5968.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
@@ -15,7 +16,8 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.13/push.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.runtime.min.js"></script>
+        <script type="text/javascript" src="javascript/templates.js"></script>
         <script type="text/javascript" src="javascript/pahoclient.js"></script>
         <script type="text/javascript" src="javascript/client.js"></script>
     </head>
@@ -43,118 +45,70 @@
             <div class="collapse navbar-collapse js-navbar-collapse">
                 <div class="card card-danger card-inverse" id="dropdown-card">
                     <div class="form-group row">
-                        <label for="example-text-input" class="col-2 col-form-label">Title</label>
+                        <label for="title-input" class="col-2 col-form-label">Title</label>
                         <div class="col-10">
-                            <input class="form-control" type="text" value="Temp/Humd/Range" id="example-text-input">
+                            <input class="form-control" type="text" value="Temp/Humd/Range" id="title-input">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="example-search-input" class="col-2 col-form-label">Location</label>
+                        <label for="location-input" class="col-2 col-form-label">Location</label>
                         <div class="col-10">
-                            <input class="form-control" type="search" value="Top shelf fridge" id="example-search-input">
+                            <input class="form-control" type="text" value="Top shelf fridge" id="location-input">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="example-search-input" class="col-2 col-form-label">C/N Name</label>
+                        <label for="channel-input" class="col-2 col-form-label">Channel</label>
                         <div class="col-10">
-                            <input class="form-control" type="search" value="RF24SN/1/3" id="example-search-input">
+                            <input class="form-control" type="text" value="RF24SN/in/1/3" id="channel-input">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="example-search-input" class="col-2 col-form-label">Warning Range</label>
+                        <label for="unit-input" class="col-2 col-form-label">Units</label>
                         <div class="col-10">
-                            <input class="form-control" type="search" value="50" id="example-search-input">
+                            <input class="form-control" type="text" value="%" id="unit-input">
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-success col-md-12" id="addCard"><i class="fa fa-check fa-lg" aria-hidden="true"></i> Add Card </button>
-                    <button type="button" class="btn btn-danger col-md-12" id="cancelCard"><i class="fa fa-ban fa-lg" aria-hidden="true"></i> Cancel</button>
-                </div>
-            </div>
-        </form>
+                    <div class="form-group row">
+                        <label for="warning-input" class="col-2 col-form-label">Warning</label>
+                        <div class="col-10">
+                            <input class="form-control" type="text" value="50" id="warning-input">
+                        </div>
+                    </div>
 
-    </div>
-    <!-- <div class="container-fluid mx-auto"> -->
-    <!-- Center whole card grid -->
-    <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
-        <!-- Start of card grid  -->
-        <div class="card-columns" style="max-width: 850px">
-            <!-- Temperature Card Block -->
-            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
-                <div class="card-block">
-                    <h4 class="card-title">Temperature</h4>
-                    <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
-                </div>
-                <div class="card-block">
-                    <!-- <img class="center-block card-img-top img-fluid card-image" src="img/temp-icon.png" alt="Card Image cap" style="max-width: 70px;"/> -->
-                    <h6 class="saving loading card-title">Waiting<span>.</span>
-                        <span>.</span>
-                        <span>.</span>
-                    </h6>
-                    <h4 class="card-title" id="returntemp"></h4>
-                </div>
-                <div class="card-block">
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.
-                    </p>
+                    <button type="button" class="btn btn-success col-md-12" id="addCard">
+                        <i class="fa fa-check fa-lg" aria-hidden="true"></i>
+                        Add Card
+                    </button>
+                    <button type="button" class="btn btn-danger col-md-12" id="cancelCard">
+                        <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
+                        Cancel</button>
                 </div>
             </div>
-            <!-- Humidity Card Block -->
-            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
-                <div class="card-block">
-                    <h4 class="card-title">Humidity</h4>
-                    <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
-                </div>
-                <div class="card-block">
-                    <!-- <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 80px;"/> -->
-                    <h6 class="saving loading card-title">Waiting<span>.</span>
-                        <span>.</span>
-                        <span>.</span>
-                    </h6>
-                    <h4 class="card-title" id="returnhumd"></h4>
-                </div>
-                <div class="card-block">
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Card Block -->
-            <div class="card text-center card-info card-inverse col-md-4 col-md-offset-4" style="max-width: 275px;">
-                <div class="card-block">
-                    <h4 class="card-title">Space Percentage</h4>
-                    <h6 class="card-subtitle text-muted">Location: Top Shelf</h6>
-                </div>
-                <div class="card-block">
-                    <!-- <img class="center-block card-img-top img-responsive" src="img/humd-icon.png" alt="Card Image cap" style="max-width: 80px;"/> -->
-                    <h6 class="saving loading card-title">Waiting<span>.</span>
-                        <span>.</span>
-                        <span>.</span>
-                    </h6>
-                    <h4 class="card-title" id="returnhumd"></h4>
-                </div>
-                <div class="card-block">
-                    <p class="card-text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.
-                    </p>
-                </div>
-            </div>
-
         </div>
 
-    </div>
-    <!-- Chartjs live updates block  -->
-    <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
-        <div class="card text-center card-inverse col-md-4 col-md-offset-4" style="max-width: 550px;">
-            <canvas id="chartID"></canvas>
+        <!-- Cards container -->
+        <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
+            <div id="card-content" class="card-columns" style="max-width: 850px">
+            <!-- Merge the template with the data, and place it on the page -->
+            <script type="text/javascript">
+                $('#card-content').append(template)
+            </script>
         </div>
-    </div>
-    <!-- </div> -->
+        </div>
 
-</body>
+
+        <!-- TODO: fix scaling on mobile phone  -->
+        <!-- Chartjs live updates block  -->
+        <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
+            <div class="card text-center card-inverse col-xs-20 col-md-4 col-md-offset-4" style="min-height:150px;">
+                <canvas id="chartID"></canvas>
+            </div>
+        </div>
+
+    </body>
 
 </html>

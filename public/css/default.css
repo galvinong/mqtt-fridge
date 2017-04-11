@@ -1,44 +1,51 @@
+/* Sets the jumbotron background color and text color*/
 .color-jumbotron {
     background-color: #233237;
     color: #FFFFFF;
 }
 
+/* For displaying card values*/
+.ready-value {
+  display: block;
+  font-size: 1.5em;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+}
+
+/*For the add/plus card dropdown menu*/
 #dropdown-card {
     width: 400px;
     height: auto;
     padding: 20px;
 }
 
-@media (min-width: 34em) {
+/*For adjusting the column count of bootstrap cards class*/
+@media (min-width: 34rem) {
     .card-columns {
         -webkit-column-count: 2;
         -moz-column-count: 2;
         column-count: 2;
+        -webkit-transform: translate3d(0, 0, 0);
     }
 }
 
-@media (min-width: 48em) {
+@media (min-width: 48rem) {
     .card-columns {
         -webkit-column-count: 3;
         -moz-column-count: 3;
         column-count: 3;
+        -webkit-transform: translate3d(0, 0, 0);
     }
 }
 
-@media (min-width: 62em) {
-    .card-columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
-}
-
-@media (min-width: 75em) {
-    .card-columns {
-        -webkit-column-count: 3;
-        -moz-column-count: 3;
-        column-count: 3;
-    }
+/* For the main body font*/
+.body {
+  font-size: 12px;
+  font-family: "Roboto";
+  font-weight: 400;
 }
 
 .background-image {
@@ -70,72 +77,33 @@
 }
 
 @keyframes blink {
-    /**
-     * At the start of the animation the dot
-     * has an opacity of .2
-     */
-
+    /** At the start of the animation the dot has an opacity of .2*/
     0% {
         opacity: .2;
     }
-    /**
-     * At 20% the dot is fully visible and
-     * then fades out slowly
-     */
-
+    /** At 20% the dot is fully visible and then fades out slowly*/
     20% {
         opacity: 1;
     }
-    /**
-     * Until it reaches an opacity of .2 and
-     * the animation can start again
-     */
-
+    /** Until it reaches an opacity of .2 and the animation can start again*/
     100% {
         opacity: .2;
     }
 }
 .saving span {
-    /**
-     * Use the blink animation, which is defined above
-     */
-
+    /** Use the blink animation, which is defined above*/
     animation-name: blink;
-    /**
-     * The animation should take 1.4 seconds
-     */
-
+    /** The animation should take 1.4 seconds*/
     animation-duration: 1.4s;
-    /**
-     * It will repeat itself forever
-     */
-
+    /** It will repeat itself forever*/
     animation-iteration-count: infinite;
-    /**
-     * This makes sure that the starting style (opacity: .2)
-     * of the animation is applied before the animation starts.
-     * Otherwise we would see a short flash or would have
-     * to set the default styling of the dots to the same
-     * as the animation. Same applies for the ending styles.
-     */
-
     animation-fill-mode: both;
 }
 .saving span:nth-child(2) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .2s, otherwise all dots
-     * would animate at the same time
-     */
-
+    /**Third dot with a delay of .2s*/
     animation-delay: .2s;
 }
 .saving span:nth-child(3) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .4s, otherwise all dots
-     * would animate at the same time
-     */
-
+    /**Third dot with a delay of .4s*/
     animation-delay: .4s;
 }

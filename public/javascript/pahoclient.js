@@ -1,6 +1,6 @@
 // Socket handling script, gets live updates from mosquitto through websockets
-let tempChartUpdate
-let humdChartUpdate
+// let tempChartUpdate
+// let humdChartUpdate
 // Create a client instance
 client = new Paho.MQTT.Client(
   'm20.cloudmqtt.com',
@@ -49,6 +49,19 @@ function onConnectionLost(responseObject) {
 	}
 };
 
+let channelNames = {
+	channel: [
+		{
+			title: 'RF24SN/in/1/1',
+			return: 'returntemp',
+		}, {
+			title: 'RF24SN/in/1/2',
+			return: 'returnhumd',
+		},
+	],
+}
+
+
 /**
  * [onMessageArrived called when message arrives]
  * @param  {[message]} message [message contains topic and payload]
@@ -56,17 +69,14 @@ function onConnectionLost(responseObject) {
 function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
 		let payload = Math.floor(message.payloadString * 100) / 100
-		console.log(payload)
-
-		// Push.js notifications here
-		
 		$('.loading').hide()
-		if (message.destinationName == 'RF24SN/in/1/1') {
-			tempChartUpdate = payload
-			$('#returntemp').html(payload)
-		} else if (message.destinationName == 'RF24SN/in/1/2') {
-			humdChartUpdate = payload
-			$('#returnhumd').html(payload)
+		// $('.ready-value').show()
+		for (var i = 0; i < channelNames.channel.length; i++) {
+			// console.log(channelNames.channel[i].title)
+			// console.log(channelNames.channel[i].return)
+			if (message.destinationName == channelNames.channel[i].title) {
+				$('#' + channelNames.channel[i].return).html(payload)
+			}
 		}
 	}
 };
