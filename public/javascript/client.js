@@ -1,37 +1,6 @@
 let labels =[]
 let tempData=[]
 let humdData=[]
-let sendNotification = function(data) {
-	let headers = {
-		'Content-Type': 'application/json; charset=utf-8',
-		'Authorization': 'Basic ***REMOVED***',
-	}
-
-	let options = {
-		host: 'onesignal.com',
-		port: 443,
-		path: '/api/v1/notifications',
-		method: 'POST',
-		headers: headers,
-	}
-
-	let https = require('https')
-	let req = https.request(options, function(res) {
-		res.on('data', function(data) {
-			console.log('Response:')
-			console.log(JSON.parse(data))
-		})
-	})
-
-	req.on('error', function(e) {
-		console.log('ERROR:')
-		console.log(e)
-	})
-
-	req.write(JSON.stringify(data))
-	req.end()
-}
-
 
 // Momentjs definition of days
 const today = moment().startOf('day')
@@ -39,7 +8,7 @@ const yesterday = moment(today).add(-1, 'days')
 const tomorrow = moment(today).add(1, 'days')
 const pastHour = moment().add(-1, 'hours')
 
-// START of HandleBars Template
+// <--START of HandleBars Template-->
 // Create cardsData obj and cards array to be displayed
 let cardsData = {
 	cards: [
@@ -62,10 +31,10 @@ let cardsData = {
 }
 
 let template = Handlebars.templates['card-template'](cardsData)
-// END of HandleBars Template
+// <--END of HandleBars Template-->
 
 
-// Start of ChartJS code
+// <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
 $.ajax({
 	url: './get-data/1' + '/' + pastHour,
@@ -178,9 +147,9 @@ window.onload = function() {
 		}
 	}, 10000)
 }
-// End of ChartJS code
+// <--End of ChartJS code-->
 
-// Start of dropdown menu code
+// <--Start of dropdown menu code-->
 $(document).ready(function() {
 	// $('.ready-value').hide()
 	$('#cancelCard').click(function() {
@@ -219,4 +188,4 @@ $(document).ready(function() {
 		console.log($('#returntemp').val())
 	})
 })
-// End of dropdown menu code
+// <--End of dropdown menu code-->

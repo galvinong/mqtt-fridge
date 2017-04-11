@@ -3,6 +3,39 @@ const deviceRoot = 'RF24SN/in/1/'
 let express = require('express')
 let router = express.Router()
 let mqtt = require('mqtt')
+let https = require('https')
+
+// For OneSignal integration, function sending push notifications to client
+let sendNotification = function(data) {
+	let headers = {
+		'Content-Type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ***REMOVED***',
+	}
+
+	let options = {
+		host: 'onesignal.com',
+		port: 443,
+		path: '/api/v1/notifications',
+		method: 'POST',
+		headers: headers,
+	}
+
+	let req = https.request(options, function(res) {
+		res.on('data', function(data) {
+			console.log('Response:')
+			console.log(JSON.parse(data))
+		})
+	})
+
+	req.on('error', function(e) {
+		console.log('ERROR:')
+		console.log(e)
+	})
+
+	req.write(JSON.stringify(data))
+	req.end()
+}
+
 
 // For MongoDB connection
 let mongoose = require('mongoose')
@@ -72,6 +105,13 @@ function insertEvent(topic, payload) {
 				console.log('Error saving to mongodb')
 			}
 		})
+		// Add onesignal code here
+		let message = {
+			app_id: '***REMOVED***',
+			contents: {'en': 'English Message'},
+			included_segments: ['All'],
+		}
+		sendNotification(message)
 	}
 }
 
