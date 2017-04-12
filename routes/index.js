@@ -147,25 +147,25 @@ function insertEvent(topic, payload) {
 		// }
 		// Add onesignal code here
 
-		if (topic === 'RF24SN/in/1/1') {
-			if (payload > 20) {
-				let message = {
-					app_id: '***REMOVED***',
-					contents: {'en': 'Warning: Temperature value above range! ' + payload},
-					included_segments: ['All'],
-				}
-				sendNotification(message)
-			}
-		} else if (topic === 'RF24SN/in/1/2') {
-			if (payload < 50) {
-				let message = {
-					app_id: '***REMOVED***',
-					contents: {'en': 'Warning: Humidity value above range! ' + payload},
-					included_segments: ['All'],
-				}
-				sendNotification(message)
-			}
-		}
+		// if (topic === 'RF24SN/in/1/1') {
+		// 	if (payload > 20) {
+		// 		let message = {
+		// 			app_id: '***REMOVED***',
+		// 			contents: {'en': 'Warning: Temperature value above range! ' + payload},
+		// 			included_segments: ['All'],
+		// 		}
+		// 		sendNotification(message)
+		// 	}
+		// } else if (topic === 'RF24SN/in/1/2') {
+		// 	if (payload < 50) {
+		// 		let message = {
+		// 			app_id: '***REMOVED***',
+		// 			contents: {'en': 'Warning: Humidity value above range! ' + payload},
+		// 			included_segments: ['All'],
+		// 		}
+		// 		sendNotification(message)
+		// 	}
+		// }
 	}
 }
 
