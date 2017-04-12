@@ -3,6 +3,39 @@ const deviceRoot = 'RF24SN/in/1/'
 let express = require('express')
 let router = express.Router()
 let mqtt = require('mqtt')
+let https = require('https')
+
+// For OneSignal integration, function sending push notifications to client
+let sendNotification = function(data) {
+	let headers = {
+		'Content-Type': 'application/json; charset=utf-8',
+		'Authorization': 'Basic ***REMOVED***',
+	}
+
+	let options = {
+		host: 'onesignal.com',
+		port: 443,
+		path: '/api/v1/notifications',
+		method: 'POST',
+		headers: headers,
+	}
+
+	let req = https.request(options, function(res) {
+		res.on('data', function(data) {
+			console.log('Response:')
+			console.log(JSON.parse(data))
+		})
+	})
+
+	req.on('error', function(e) {
+		console.log('ERROR:')
+		console.log(e)
+	})
+
+	req.write(JSON.stringify(data))
+	req.end()
+}
+
 
 // For MongoDB connection
 let mongoose = require('mongoose')
@@ -51,6 +84,22 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 	})
 })
 
+// let channelNames = {
+// 	channel: [
+// 		{
+// 			id: 'RF24SN/in/1/1',
+// 			title: 'Temperature',
+// 			compare: '>',
+// 			warning: '20',
+// 		}, {
+// 			id: 'RF24SN/in/1/2',
+// 			title: 'Humidity',
+// 			comapre: '<',
+// 			warning: '50',
+// 		},
+// 	],
+// }
+
 /**
  * Handles message arrived from broker and add to mongodb
  * @param {string} topic topic that the client is subscribed to
@@ -72,7 +121,61 @@ function insertEvent(topic, payload) {
 				console.log('Error saving to mongodb')
 			}
 		})
+		console.log(topic + ' ' + payload)
+		// for (var i = 0; i < channelNames.channel.length; i++) {
+		// 	if (topic === channelNames.channel[i].id) {
+		// 		if (channelNames.channel[i].compare = '>') {
+		// 			if (payload > channelNames.channel[i].warning) {
+		// 				let message = {
+		// 					app_id: '***REMOVED***',
+		// 					contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
+		// 					included_segments: ['All'],
+		// 				}
+		// 				sendNotification(message)
+		// 			}
+		// 		} else if (channelNames.channel[i].compare = '<') {
+		// 			if (payload < channelNames.channel[i].warning) {
+		// 				let message = {
+		// 					app_id: '***REMOVED***',
+		// 					contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
+		// 					included_segments: ['All'],
+		// 				}
+		// 				sendNotification(message)
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// Add onesignal code here
+
+		// if (topic === 'RF24SN/in/1/1') {
+		// 	if (payload > 20) {
+		// 		let message = {
+		// 			app_id: '***REMOVED***',
+		// 			contents: {'en': 'Warning: Temperature value above range! ' + payload},
+		// 			included_segments: ['All'],
+		// 		}
+		// 		sendNotification(message)
+		// 	}
+		// } else if (topic === 'RF24SN/in/1/2') {
+		// 	if (payload < 50) {
+		// 		let message = {
+		// 			app_id: '***REMOVED***',
+		// 			contents: {'en': 'Warning: Humidity value above range! ' + payload},
+		// 			included_segments: ['All'],
+		// 		}
+		// 		sendNotification(message)
+		// 	}
+		// }
 	}
+}
+
+/**
+ * [checkNotification Handles checking for onesignal notifications]
+ * @param  {[type]} topic   [splits based on the channel defined]
+ * @param  {[type]} payload [apply checking based on the payload]
+ */
+function checkNotification(topic, payload) {
+
 }
 
 module.exports = router

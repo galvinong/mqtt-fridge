@@ -29,10 +29,9 @@ let cardsData = {
 		},
 	],
 }
-
 let template = Handlebars.templates['card-template'](cardsData)
 // <--END of HandleBars Template-->
-y
+
 // <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
 $.ajax({
