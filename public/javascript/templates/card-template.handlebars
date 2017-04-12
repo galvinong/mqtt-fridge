@@ -1,32 +1,42 @@
-
-    {{#each cards}}
-        <div class="card text-center col-md-4 col-md-offset-4" id={{title}} style="max-width: 275px;">
-            <div class="card-block">
-                <h4 class="card-title">{{title}}</h4>
-                <h6 class="card-subtitle">Location:
+{{#each cards}}
+    <div class="card text-center col-md-4 col-md-offset-4" id= {{title}} style="max-width: 275px;">
+        <div class="card-block">
+            <h4 class="card-title">{{title}}</h4>
+            <h6 class="card-subtitle">Location:
                               {{location}}</h6>
-            </div>
-            <div class="card-block">
-                <h6 class="saving loading card-title text-muted">
+        </div>
+        <div class="card-block">
+            <h6 class="saving loading card-title text-muted">
                     Waiting<span>.</span><span>.</span><span>.</span>
                 </h6>
-                <span class="ready-value">
+            <span class="ready-value">
                     <span class="card-title" id="{{returndata}}"></span>
-                    <span class="card-title">{{unitvalue}}</span>
-                </span>
-            </div>
-            <div class="card-block">
-                <p class="card-text">
-                    {{cardtext}}
-                </p>
-                <button type="button" class="btn btn-secondary col-md-12" id="{{buttonValue}}">
+            <span class="card-title">{{unitvalue}}</span>
+            </span>
+        </div>
+        <div class="card-block">
+            <p class="card-text">
+                {{cardtext}}
+            </p>
+            <button type="button" class="btn btn-secondary col-md-12" id="{{buttonValue}}">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </button>
-                <script>
+            <script>
                 $('#{{buttonValue}}').click(function() {
-                    $('#{{title}}').remove()
+                	$('#{{title}}').remove()
+                	let newWarning = {
+                		title: $('#title-input').val(),
+                		compare: $('#operator-select').val(),
+                		warning: $('#warning-input').val(),
+                	}
+                	$.ajax({
+                		type: 'DELETE',
+                		data: JSON.stringify(newWarning),
+                		url: './add-warn',
+                		contentType: 'application/json',
+                	})
                 })
-                </script>
-            </div>
+            </script>
         </div>
-    {{/each}}
+    </div>
+{{/each}}

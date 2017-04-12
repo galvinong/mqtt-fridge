@@ -8,8 +8,8 @@ let https = require('https')
 let bodyParser = require('body-parser')
 
 // create application/json parser
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json()) // support json encoded bodies
+app.use(bodyParser.urlencoded({extended: true})) // support encoded bodies
 app.set('view engine', 'ejs')
 
 //  OneSignal warning array
@@ -110,7 +110,26 @@ router.post('/add-warn', function(req, res) {
 	insertWarning(req.body)
 })
 
+router.delete('/add-warn', function(req, res) {
+	res.send('Delete recevied')
+	removeWarning(req.body)
+})
+
 app.use('/', router)
+
+/**
+ * [removeWarning remove warning notification after deleting card]
+ * @param  {[type]} responseBody [ID of channel to delete]
+ */
+function removeWarning(responseBody) {
+	for (let i = channelNames.channel.length - 1; i >= 0; i--) {
+		if (channelNames.channel[i].title === responseBody.title && channelNames.channel[i].compare === responseBody.compare && channelNames.channel[i].warning === responseBody.warning) {
+			channelNames.channel.splice(i, 1)
+			break
+		}
+	}
+	console.log(channelNames)
+}
 
 /**
  * [insertWarning Handles OneSignal Warning insertion into the array]
@@ -160,7 +179,7 @@ function insertEvent(topic, payload) {
  */
 function checkNotification(topic, payload) {
 	console.log(topic + ' ' + payload)
-	for (var i = 0; i < channelNames.channel.length; i++) {
+	for (let i = 0; i < channelNames.channel.length; i++) {
 		// Match the channel name with topic
 		if (topic === channelNames.channel[i].id) {
 			console.log(channelNames.channel[i].compare + ' ' + channelNames.channel[i].warning + ' ' + channelNames.channel[i].title)

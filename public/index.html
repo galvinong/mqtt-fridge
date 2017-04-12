@@ -81,11 +81,18 @@
                         <label for="warning-input" class="col-xs-2 col-form-label">Warning Range</label>
                         <div class="col-xs-6">
                             <select class="form-control col-xs-3" id="operator-select">
-                                <option>></option>
-                                <option><</option>
+                                <option value=""> </option>
+                                <option value=">">></option>
+                                <option value="<"><</option>
                             </select>
                             <input class="form-control col-xs-3" type="text" value="" id="warning-input">
                         </div>
+
+                        <label for="description-input" class="col-xs-2 col-form-label">Description</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text" id="description-input">
+                        </div>
+
                     <button type="button" class="btn btn-success col-xs-4" id="addCard">
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i>
                         Add Card

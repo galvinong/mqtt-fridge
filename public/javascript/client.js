@@ -155,7 +155,7 @@ $(document).ready(function() {
 			location: $('#location-input').val(),
 			returndata: returnString,
 			unitvalue: $('#unit-input').val(),
-			cardtext: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.',
+			cardtext: $('#description-input').val(),
 			buttonValue: buttonID,
 		}
 		let newCards = {
@@ -172,26 +172,25 @@ $(document).ready(function() {
 		}
 		channelNames.channel.push(newChannel)
 
-
-		let newWarning = {
-			id: channelString,
-			title: $('#title-input').val(),
-			compare: $('#operator-select').val(),
-			warning: $('#warning-input').val(),
+		if (!($('#operator-select').val() === '')) {
+			let newWarning = {
+				id: channelString,
+				title: $('#title-input').val(),
+				compare: $('#operator-select').val(),
+				warning: $('#warning-input').val(),
+			}
+			console.log(newWarning)
+			$.ajax({
+				type: 'POST',
+				data: JSON.stringify(newWarning),
+				url: './add-warn',
+				contentType: 'application/json',
+			})
 		}
-		$.ajax({
-			type: 'POST',
-			data: JSON.stringify(newWarning),
-			url: './add-warn',
-			contentType: 'application/json',
-		})
-
-
 		let newCardsTemplate = Handlebars.templates['card-template'](newCards)
 		// $('#card-content').empty()
 		$('#card-content').append(newCardsTemplate)
 		$('.collapse').collapse('toggle')
-		console.log($('#returntemp').val())
 	})
 })
 // <--End of dropdown menu code-->
