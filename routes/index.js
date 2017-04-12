@@ -122,7 +122,7 @@ function insertEvent(topic, payload) {
 			}
 		})
 		// console.log(topic + ' ' + payload)
-		checkNotification()
+		checkNotification(topic, payload)
 		// Add onesignal code here
 
 		// if (topic === 'RF24SN/in/1/1') {
