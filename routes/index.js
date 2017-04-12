@@ -121,7 +121,7 @@ function insertEvent(topic, payload) {
 				console.log('Error saving to mongodb')
 			}
 		})
-		console.log(topic + ' ' + payload)
+		// console.log(topic + ' ' + payload)
 		// for (var i = 0; i < channelNames.channel.length; i++) {
 		// 	if (topic === channelNames.channel[i].id) {
 		// 		if (channelNames.channel[i].compare = '>') {
