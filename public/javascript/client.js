@@ -17,14 +17,14 @@ let cardsData = {
 			location: 'Top Shelf',
 			returndata: 'returntemp',
 			unitvalue: '°C',
-			cardtext: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.',
+			cardtext: 'DHT22 Sensor, measures temperature air +-0.5°C accuracy',
 			buttonValue: 'btnTemperature',
 		}, {
 			title: 'Humidity',
 			location: 'Top Shelf',
 			returndata: 'returnhumd',
 			unitvalue: '%',
-			cardtext: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac laoreet nibh.',
+			cardtext: 'DHT22 Sensor, measures humidity air +-2-5% accuracy',
 			buttonValue: 'btnHumidity',
 		},
 	],
@@ -171,6 +171,22 @@ $(document).ready(function() {
 			return: returnString,
 		}
 		channelNames.channel.push(newChannel)
+
+
+		let newWarning = {
+			id: channelString,
+			title: $('#title-input').val(),
+			compare: $('#operator-select').val(),
+			warning: $('#warning-input').val(),
+		}
+		$.ajax({
+			type: 'POST',
+			data: JSON.stringify(newWarning),
+			url: './add-warn',
+			contentType: 'application/json',
+		})
+
+
 		let newCardsTemplate = Handlebars.templates['card-template'](newCards)
 		// $('#card-content').empty()
 		$('#card-content').append(newCardsTemplate)

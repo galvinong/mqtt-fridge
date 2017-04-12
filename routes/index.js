@@ -1,9 +1,33 @@
 'use strict'
 const deviceRoot = 'RF24SN/in/1/'
 let express = require('express')
+let app = express()
 let router = express.Router()
 let mqtt = require('mqtt')
 let https = require('https')
+let bodyParser = require('body-parser')
+
+// create application/json parser
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.set('view engine', 'ejs')
+
+//  OneSignal warning array
+let channelNames = {
+	channel: [
+		{
+			id: 'RF24SN/in/1/1',
+			title: 'Temperature',
+			compare: '>',
+			warning: '25',
+		}, {
+			id: 'RF24SN/in/1/2',
+			title: 'Humidity',
+			compare: '<',
+			warning: '50',
+		},
+	],
+}
 
 // For OneSignal integration, function sending push notifications to client
 let sendNotification = function(data) {
@@ -66,15 +90,12 @@ const sensorSchema = new mongoose.Schema({
 let SensorInput = mongoose.model('RF24SN', sensorSchema)
 
 // Routes index page and database data
-// router.get('/', function(req, res, next) {
-// 	res.render('index')
-// })
-router.get('/', function(request, response) {
-	response.sendfile('index.html')
+router.get('/', function(req, res) {
+	res.render('index.html')
 })
 
 // API for database retrieval, sensor ID then moment js time format
-router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
+router.get('/get-data/:sensor_id/:time_created', function(req, res) {
 	SensorInput.find({sensor: req.params.sensor_id}).where('events.created').gt(req.params.time_created).exec(function(err, sensorItem) {
 		if (err) {
 			res.send(err)
@@ -84,20 +105,26 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 	})
 })
 
-let channelNames = {
-	channel: [
-		{
-			id: 'RF24SN/in/1/1',
-			title: 'Temperature',
-			compare: '>',
-			warning: '25',
-		}, {
-			id: 'RF24SN/in/1/2',
-			title: 'Humidity',
-			compare: '<',
-			warning: '50',
-		},
-	],
+router.post('/add-warn', function(req, res) {
+	res.send('Warning received')
+	insertWarning(req.body)
+})
+
+app.use('/', router)
+
+/**
+ * [insertWarning Handles OneSignal Warning insertion into the array]
+ * @param  {[type]} responseData [response data from post request]
+ */
+function insertWarning(responseData) {
+	let newWarning = {
+		id: responseData.id,
+		title: responseData.title,
+		compare: responseData.compare,
+		warning: responseData.warning,
+	}
+	channelNames.channel.push(newWarning)
+	console.log(channelNames)
 }
 
 /**
@@ -134,9 +161,11 @@ function insertEvent(topic, payload) {
 function checkNotification(topic, payload) {
 	console.log(topic + ' ' + payload)
 	for (var i = 0; i < channelNames.channel.length; i++) {
+		// Match the channel name with topic
 		if (topic === channelNames.channel[i].id) {
 			console.log(channelNames.channel[i].compare + ' ' + channelNames.channel[i].warning + ' ' + channelNames.channel[i].title)
-			if (channelNames.channel[i].compare = '>') {
+			// If payload is bigger than warning,
+			if (channelNames.channel[i].compare === '>') {
 				if (payload > channelNames.channel[i].warning) {
 					console.log('bigger')
 					let message = {
@@ -147,8 +176,8 @@ function checkNotification(topic, payload) {
 					sendNotification(message)
 				}
 			}
-			if (channelNames.channel[i].compare = '<') {
-				if (payload < channelNames.channel[i].warning) {
+			if (channelNames.channel[i].compare === '<') {
+				if (payload < channelNames.channel[i].warning ) {
 					console.log('smaller')
 					let message = {
 						app_id: '***REMOVED***',
