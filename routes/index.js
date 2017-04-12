@@ -120,33 +120,65 @@ function insertEvent(topic, payload) {
 			}
 		})
 		console.log(topic + ' ' + payload)
+		checkNotification(topic, payload)
 		// Add onesignal code here
 
-		if (topic === 'RF24SN/in/1/1') {
-			if (payload > 20) {
-				let message = {
-					app_id: '***REMOVED***',
-					contents: {'en': 'Warning: Temperature abnormal!' + payload},
-					included_segments: ['All'],
-				}
-				sendNotification(message)
-			}
-		} else if (topic === 'RF24SN/in/1/2') {
-			if (payload < 50) {
-				let message = {
-					app_id: '***REMOVED***',
-					contents: {'en': 'Warning: Humidity abnormal!' + payload},
-					included_segments: ['All'],
-				}
-				sendNotification(message)
-			}
-		}
+		// if (topic === 'RF24SN/in/1/1') {
+		// 	if (payload > 20) {
+				// let message = {
+				// 	app_id: '***REMOVED***',
+				// 	contents: {'en': 'Warning: Temperature abnormal!' + payload},
+				// 	included_segments: ['All'],
+				// }
+		// 		sendNotification(message)
+		// 	}
+		// } else if (topic === 'RF24SN/in/1/2') {
+		// 	if (payload < 50) {
+		// 		let message = {
+		// 			app_id: '***REMOVED***',
+		// 			contents: {'en': 'Warning: Humidity abnormal!' + payload},
+		// 			included_segments: ['All'],
+		// 		}
+		// 		sendNotification(message)
+		// 	}
+		// }
 		// let message = {
 		// 	app_id: '***REMOVED***',
 		// 	contents: {'en': 'English Message'},
 		// 	included_segments: ['All'],
 		// }
 		// sendNotification(message)
+	}
+}
+
+/**
+ * [checkNotification Handles checking for onesignal notifications]
+ * @param  {[type]} topic   [splits based on the channel defined]
+ * @param  {[type]} payload [apply checking based on the payload]
+ */
+function checkNotification(topic, payload) {
+	for (var i = 0; i < channelNames.channel.length; i++) {
+		if (topic === channelNames.channel[i].title) {
+			if (channelNames.channel[i].compare = '>') {
+				if (payload > channelNames.channel[i].warning) {
+					let message = {
+						app_id: '***REMOVED***',
+						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
+						included_segments: ['All'],
+					}
+					sendNotification(message)
+				}
+			} else if (channelNames.channel[i].compare = '<') {
+				if (payload < channelNames.channel[i].warning) {
+					let message = {
+						app_id: '***REMOVED***',
+						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
+						included_segments: ['All'],
+					}
+					sendNotification(message)
+				}
+			}
+		}
 	}
 }
 
