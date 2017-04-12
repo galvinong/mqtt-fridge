@@ -90,7 +90,7 @@ let channelNames = {
 			id: 'RF24SN/in/1/1',
 			title: 'Temperature',
 			compare: '>',
-			warning: '20',
+			warning: '25',
 		}, {
 			id: 'RF24SN/in/1/2',
 			title: 'Humidity',
@@ -134,6 +134,7 @@ function insertEvent(topic, payload) {
 function checkNotification(topic, payload) {
 	for (var i = 0; i < channelNames.channel.length; i++) {
 		if (topic === channelNames.channel[i].id) {
+			console.log(channelNames.channel[i].compare + ' ' + channelNames.channel[i].warning + ' ' + channelNames.channel[i].title)
 			if (channelNames.channel[i].compare = '>') {
 				if (payload > channelNames.channel[i].warning) {
 					let message = {
