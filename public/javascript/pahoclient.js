@@ -47,13 +47,13 @@ function onConnectionLost(responseObject) {
 	}
 };
 
-let channelNames = {
+let channelSubscribe = {
 	channel: [
 		{
-			title: 'RF24SN/in/1/1',
+			id: 'RF24SN/in/1/1',
 			return: 'returntemp',
 		}, {
-			title: 'RF24SN/in/1/2',
+			id: 'RF24SN/in/1/2',
 			return: 'returnhumd',
 		},
 	],
@@ -70,11 +70,11 @@ function onMessageArrived(message) {
 		// Hide loading message
 		$('.loading').hide()
 		// Load values according to their html id
-		for (var i = 0; i < channelNames.channel.length; i++) {
+		for (var i = 0; i < channelSubscribe.channel.length; i++) {
 			// console.log(channelNames.channel[i].title)
 			// console.log(channelNames.channel[i].return)
-			if (message.destinationName == channelNames.channel[i].title) {
-				$('#' + channelNames.channel[i].return).html(payload)
+			if (message.destinationName == channelSubscribe.channel[i].id) {
+				$('#' + channelSubscribe.channel[i].return).html(payload)
 			}
 		}
 	}
