@@ -32,8 +32,7 @@ let cardsData = {
 
 let template = Handlebars.templates['card-template'](cardsData)
 // <--END of HandleBars Template-->
-
-
+y
 // <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
 $.ajax({
@@ -136,14 +135,6 @@ window.onload = function() {
 			lineChart.data.datasets[1].data[labels.length] = returnhumdValue
 			lineChart.data.labels[labels.length] = latestLabel
 			window.lineChart.update()
-
-			// Add onesignal code here
-			let message = {
-				app_id: '***REMOVED***',
-				contents: {'en': 'English Message'},
-				included_segments: ['All'],
-			}
-			sendNotification(message)
 		}
 	}, 10000)
 }
