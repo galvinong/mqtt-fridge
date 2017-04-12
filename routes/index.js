@@ -84,98 +84,36 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 	})
 })
 
-// let channelNames = {
-// 	channel: [
-// 		{
-// 			id: 'RF24SN/in/1/1',
-// 			title: 'Temperature',
-// 			compare: '>',
-// 			warning: '20',
-// 		}, {
-// 			id: 'RF24SN/in/1/2',
-// 			title: 'Humidity',
-// 			comapre: '<',
-// 			warning: '50',
-// 		},
-// 	],
-// }
 
 /**
  * Handles message arrived from broker and add to mongodb
  * @param {string} topic topic that the client is subscribed to
  * @param {string} payload payload that the topic has, sent periodically
  */
-function insertEvent(topic, payload) {
-	// Check payload whether 0 or nan, don't insert
-	if (payload !== NaN ) {
-		let key = topic.replace(deviceRoot, '')
-		let sensor = new SensorInput({
-			sensor: key,
-			events: {
-				value: payload,
-				created: new Date(),
-			},
-		})
-		sensor.save(function(err) {
-			if (err) {
-				console.log('Error saving to mongodb')
-			}
-		})
-		// console.log(topic + ' ' + payload)
-		// for (var i = 0; i < channelNames.channel.length; i++) {
-		// 	if (topic === channelNames.channel[i].id) {
-		// 		if (channelNames.channel[i].compare = '>') {
-		// 			if (payload > channelNames.channel[i].warning) {
-		// 				let message = {
-		// 					app_id: '***REMOVED***',
-		// 					contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
-		// 					included_segments: ['All'],
-		// 				}
-		// 				sendNotification(message)
-		// 			}
-		// 		} else if (channelNames.channel[i].compare = '<') {
-		// 			if (payload < channelNames.channel[i].warning) {
-		// 				let message = {
-		// 					app_id: '***REMOVED***',
-		// 					contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
-		// 					included_segments: ['All'],
-		// 				}
-		// 				sendNotification(message)
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// Add onesignal code here
-
-		// if (topic === 'RF24SN/in/1/1') {
-		// 	if (payload > 20) {
-		// 		let message = {
-		// 			app_id: '***REMOVED***',
-		// 			contents: {'en': 'Warning: Temperature value above range! ' + payload},
-		// 			included_segments: ['All'],
-		// 		}
-		// 		sendNotification(message)
-		// 	}
-		// } else if (topic === 'RF24SN/in/1/2') {
-		// 	if (payload < 50) {
-		// 		let message = {
-		// 			app_id: '***REMOVED***',
-		// 			contents: {'en': 'Warning: Humidity value above range! ' + payload},
-		// 			included_segments: ['All'],
-		// 		}
-		// 		sendNotification(message)
-		// 	}
-		// }
-	}
-}
-
-/**
- * [checkNotification Handles checking for onesignal notifications]
- * @param  {[type]} topic   [splits based on the channel defined]
- * @param  {[type]} payload [apply checking based on the payload]
- */
-function checkNotification(topic, payload) {
-
-}
+ function insertEvent(topic, payload) {
+ 	// Check payload whether 0 or nan, don't insert
+ 	if (payload !== NaN ) {
+ 		let key = topic.replace(deviceRoot, '')
+ 		let sensor = new SensorInput({
+ 			sensor: key,
+ 			events: {
+ 				value: payload,
+ 				created: new Date(),
+ 			},
+ 		})
+ 		sensor.save(function(err) {
+ 			if (err) {
+ 				console.log('Error saving to mongodb')
+ 			}
+ 		})
+ 		// Add onesignal code here
+ 		// let message = {
+ 		// 	app_id: '***REMOVED***',
+ 		// 	contents: {'en': 'English Message'},
+ 		// 	included_segments: ['All'],
+ 		// }
+ 		// sendNotification(message)
+ 	}
+ }
 
 module.exports = router
