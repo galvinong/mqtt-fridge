@@ -132,11 +132,13 @@ function insertEvent(topic, payload) {
  * @param  {[type]} payload [apply checking based on the payload]
  */
 function checkNotification(topic, payload) {
+	console.log(topic + ' ' + payload)
 	for (var i = 0; i < channelNames.channel.length; i++) {
 		if (topic === channelNames.channel[i].id) {
 			console.log(channelNames.channel[i].compare + ' ' + channelNames.channel[i].warning + ' ' + channelNames.channel[i].title)
 			if (channelNames.channel[i].compare = '>') {
 				if (payload > channelNames.channel[i].warning) {
+					console.log('bigger')
 					let message = {
 						app_id: '***REMOVED***',
 						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
@@ -144,8 +146,10 @@ function checkNotification(topic, payload) {
 					}
 					sendNotification(message)
 				}
-			} else if (channelNames.channel[i].compare = '<') {
+			}
+			if (channelNames.channel[i].compare = '<') {
 				if (payload < channelNames.channel[i].warning) {
+					console.log('smaller')
 					let message = {
 						app_id: '***REMOVED***',
 						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
