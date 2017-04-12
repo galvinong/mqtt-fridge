@@ -122,7 +122,29 @@ function insertEvent(topic, payload) {
 			}
 		})
 		console.log(topic + ' ' + payload)
-		checkNotification(topic, payload)
+		for (var i = 0; i < channelNames.channel.length; i++) {
+			if (topic === channelNames.channel[i].id) {
+				if (channelNames.channel[i].compare = '>') {
+					if (payload > channelNames.channel[i].warning) {
+						let message = {
+							app_id: '***REMOVED***',
+							contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
+							included_segments: ['All'],
+						}
+						sendNotification(message)
+					}
+				} else if (channelNames.channel[i].compare = '<') {
+					if (payload < channelNames.channel[i].warning) {
+						let message = {
+							app_id: '***REMOVED***',
+							contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
+							included_segments: ['All'],
+						}
+						sendNotification(message)
+					}
+				}
+			}
+		}
 		// Add onesignal code here
 
 		// if (topic === 'RF24SN/in/1/1') {
@@ -159,29 +181,7 @@ function insertEvent(topic, payload) {
  * @param  {[type]} payload [apply checking based on the payload]
  */
 function checkNotification(topic, payload) {
-	for (var i = 0; i < channelNames.channel.length; i++) {
-		if (topic === channelNames.channel[i].id) {
-			if (channelNames.channel[i].compare = '>') {
-				if (payload > channelNames.channel[i].warning) {
-					let message = {
-						app_id: '***REMOVED***',
-						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
-						included_segments: ['All'],
-					}
-					sendNotification(message)
-				}
-			} else if (channelNames.channel[i].compare = '<') {
-				if (payload < channelNames.channel[i].warning) {
-					let message = {
-						app_id: '***REMOVED***',
-						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
-						included_segments: ['All'],
-					}
-					sendNotification(message)
-				}
-			}
-		}
-	}
+
 }
 
 module.exports = router
