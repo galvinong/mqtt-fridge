@@ -87,11 +87,13 @@ router.get('/get-data/:sensor_id/:time_created', function(req, res, next) {
 let channelNames = {
 	channel: [
 		{
-			title: 'RF24SN/in/1/1',
+			id: 'RF24SN/in/1/1',
+			title: 'Temperature',
 			compare: '>',
 			warning: '20',
 		}, {
-			title: 'RF24SN/in/1/2',
+			id: 'RF24SN/in/1/2',
+			title: 'Humidity',
 			comapre: '<',
 			warning: '50',
 		},
@@ -158,7 +160,7 @@ function insertEvent(topic, payload) {
  */
 function checkNotification(topic, payload) {
 	for (var i = 0; i < channelNames.channel.length; i++) {
-		if (topic === channelNames.channel[i].title) {
+		if (topic === channelNames.channel[i].id) {
 			if (channelNames.channel[i].compare = '>') {
 				if (payload > channelNames.channel[i].warning) {
 					let message = {
