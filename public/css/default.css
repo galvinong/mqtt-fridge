@@ -17,6 +17,7 @@
 
 /*For the add/plus card dropdown menu*/
 #dropdown-card {
+    display: inline-grid;
     width: 400px;
     height: auto;
     padding: 20px;
@@ -36,7 +37,7 @@
     .card-columns {
         -webkit-column-count: 3;
         -moz-column-count: 3;
-        column-count: 3;
+        column-count: 1;
         -webkit-transform: translate3d(0, 0, 0);
     }
 }

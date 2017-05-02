@@ -74,17 +74,16 @@
                             <input class="form-control" type="text" value="RF24SN/in/1/3" id="channel-input">
                         </div>
 
-                        <label for="unit-input" class="col-xs-2 col-form-label">Units used</label>
+                        <label for="unit-input" class="col-xs-2 col-form-label">Units used %, mV, V, °C</label>
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" value="%" id="unit-input">
+                            <input class="form-control" type="text" value="mV" id="unit-input">
                         </div>
 
                         <label for="warning-input" class="col-xs-2 col-form-label">Warning Range</label>
                         <div class="col-xs-6">
                             <select class="form-control col-xs-3" id="operator-select">
-                                <option value=""> </option>
-                                <option value=">">></option>
-                                <option value="<"><</option>
+                                <option value="<">LESS THAN</option>
+                                <option value=">">MORE THAN</option>
                             </select>
                             <input class="form-control col-xs-3" type="text" value="" id="warning-input">
                         </div>
@@ -107,7 +106,7 @@
 
         <!-- Cards container -->
         <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
-            <div id="card-content" class="card-columns" style="max-width: 850px">
+            <div id="card-content" class="card-columns" style="max-width: 560px">
                 <!-- Merge the template with the data, and place it on the page -->
                 <script type="text/javascript">
                     $('#card-content').append(template)
