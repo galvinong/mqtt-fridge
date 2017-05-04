@@ -1,3 +1,13 @@
+var OneSignal = window.OneSignal || []
+OneSignal.push([
+		"init", {
+				appId: '***REMOVED***',
+				notifyButton: {
+						enable: true/* Set to false to hide */
+				}
+		}
+])
+
 // <--START of HandleBars Template-->
 // Create cardsData obj and cards array to be displayed
 let cardsData = {
@@ -25,6 +35,7 @@ let template = Handlebars.templates['card-template'](cardsData)
 
 // <--Start of dropdown menu code-->
 $(document).ready(function() {
+	$('.loading').hide()
 	// Logic for add card dropdown button
 	$('#cancelCard').click(function() {
 		$('.collapse').collapse('toggle')
@@ -32,16 +43,23 @@ $(document).ready(function() {
 
 	// Logic for add card button clicked
 	$('#addCard').click(function() {
-		let newCards = {cards: []}
-		let returnString = 'return' + $('#title-input').val()
-		let buttonID = 'btn' + $('title-input').val()
-		let channelString = $('#channel-input').val()
-		addNewCard(newCards, returnString, buttonID)
-		addNewSubscribe(channelString, returnString)
-		addNewWarning(channelString)
-		let newCardsTemplate = Handlebars.templates['card-template'](newCards)
-		$('#card-content').append(newCardsTemplate)
-		$('.collapse').collapse('toggle')
+		if ($('#title-input').val() === '') {
+			$('#title-input').prop('required', true)
+			$('#title-input').addClass('form-control-danger')
+		} else if ($('#channel-input').val() === '') {
+			$('#channel-input').prop('required', true)
+		} else {
+			let newCards = {cards: []}
+			let returnString = 'return' + $('#title-input').val()
+			let buttonID = 'btn' + $('title-input').val()
+			let channelString = $('#channel-input').val()
+			addNewCard(newCards, returnString, buttonID)
+			addNewSubscribe(channelString, returnString)
+			addNewWarning(channelString)
+			let newCardsTemplate = Handlebars.templates['card-template'](newCards)
+			$('#card-content').append(newCardsTemplate)
+			$('.collapse').collapse('toggle')
+		}
 	})
 })
 // <--End of dropdown menu code-->
@@ -95,4 +113,8 @@ function addNewWarning(channelString) {
 			contentType: 'application/json',
 		})
 	}
+}
+
+function round(value, decimals) {
+	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }

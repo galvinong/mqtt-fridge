@@ -67,8 +67,8 @@ let channelSubscribe = {
 function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
 		let payload = Math.floor(message.payloadString * 100) / 100
-		// Hide loading message
-		$('.loading').hide()
+		// Hide loading message 
+		// $('.loading').hide()
 		// Load values according to their html id
 		for (var i = 0; i < channelSubscribe.channel.length; i++) {
 			// console.log(channelNames.channel[i].title)

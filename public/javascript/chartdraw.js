@@ -1,8 +1,9 @@
 // Momentjs definition of days
 const today = moment().startOf('day')
-const yesterday = moment(today).add(-1, 'days')
+const yesterday = moment(today).subtract(1, 'days')
 const tomorrow = moment(today).add(1, 'days')
-const pastHour = moment().add(-1, 'hours')
+const pastHour = moment().subtract(1, 'hours')
+let pastMinute = moment().subtract(1, 'minutes')
 
 let labels =[]
 let tempData=[]
@@ -10,6 +11,24 @@ let humdData=[]
 
 // <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
+$('.loading').hide()
+$.ajax({
+	url: './get-data/1' + '/' + pastMinute,
+	dataType: 'json',
+}).done(function(results) {
+	const value = round(results[0].events.value, 2)
+	console.log(value)
+	$('#returntemp').html(value)
+})
+
+$.ajax({
+	url: './get-data/2' + '/' + pastMinute,
+	dataType: 'json',
+}).done(function(results) {
+	const value = round(results[0].events.value, 2)
+	$('#returnhumd').html(value)
+})
+
 $.ajax({
 	url: './get-data/1' + '/' + pastHour,
 	dataType: 'json',

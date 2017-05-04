@@ -22,18 +22,7 @@
         <script type="text/javascript" src="javascript/pahoclient.js"></script>
         <script type="text/javascript" src="javascript/chartdraw.js"></script>
         <script type="text/javascript" src="javascript/client.js"></script>
-        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
-        <script>
-            var OneSignal = window.OneSignal || []
-            OneSignal.push([
-                "init", {
-                    appId: '***REMOVED***',
-                    notifyButton: {
-                        enable: true/* Set to false to hide */
-                    }
-                }
-            ])
-        </script>
+        <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
     </head>
 
     <body class="background-image">
@@ -57,26 +46,27 @@
 
             <!-- Start of dropdown menu content -->
             <div class="collapse navbar-collapse js-navbar-collapse">
-                <div class="card card-danger card-inverse form-group col-12 row" id="dropdown-card">
+                <div class="card card-danger card-inverse form-group form col-12 row" id="dropdown-card">
 
-                        <label for="title-input" class="col-xs-2 col-form-label">Title of Card</label>
-                        <div class="col-xs-6">
-                            <input class="form-control" type="text" value="" id="title-input">
-                        </div>
+                            <label for="title-input" class="col-xs-2 col-form-label ">Title of Card</label>
+                            <div class="col-xs-6">
+                                <input class="form-control required" type="text" name="titleName" value="" id="title-input" required>
+                            </div>
+
 
                         <label for="location-input" class="col-xs-2 col-form-label">Location Name</label>
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" value="Top shelf fridge" id="location-input">
+                            <input class="form-control required" type="text" name="locationName" value="Top shelf fridge" id="location-input" required>
                         </div>
 
                         <label for="channel-input" class="col-xs-2 col-form-label">MQTT Channel Name</label>
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" value="RF24SN/in/1/3" id="channel-input">
+                            <input class="form-control required" type="text" name="channelName" value="RF24SN/in/1/3" id="channel-input" required>
                         </div>
 
                         <label for="unit-input" class="col-xs-2 col-form-label">Units used %, mV, V, °C</label>
                         <div class="col-xs-6">
-                            <input class="form-control" type="text" value="mV" id="unit-input">
+                            <input class="form-control required" type="text" name="unitName" value="mV" id="unit-input" required>
                         </div>
 
                         <label for="warning-input" class="col-xs-2 col-form-label">Warning Range</label>
@@ -85,7 +75,7 @@
                                 <option value="<">LESS THAN</option>
                                 <option value=">">MORE THAN</option>
                             </select>
-                            <input class="form-control col-xs-3" type="text" value="" id="warning-input">
+                            <input class="form-control col-xs-3" name="warningName" type="text" value="" id="warning-input" required>
                         </div>
 
                         <label for="description-input" class="col-xs-2 col-form-label">Description</label>
@@ -93,7 +83,7 @@
                             <input class="form-control" type="text" id="description-input">
                         </div>
 
-                    <button type="button" class="btn btn-success col-xs-4" id="addCard">
+                    <button type="submit" class="btn btn-success col-xs-4" id="addCard">
                         <i class="fa fa-check fa-lg" aria-hidden="true"></i>
                         Add Card
                     </button>
