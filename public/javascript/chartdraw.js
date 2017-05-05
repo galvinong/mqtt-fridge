@@ -117,6 +117,7 @@ window.onload = function() {
 			maintainAspectRatio: false,
 		},
 	})
+	window.lineChart.update()
 	// Every 10 seconds update the graph
 	setInterval(function() {
 		let latestLabel = moment().format('MM-DD hh:mm')

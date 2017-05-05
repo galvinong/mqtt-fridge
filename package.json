@@ -21,6 +21,7 @@
     "chart.js": "^2.5.0",
     "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
+    "express-minify-html": "^0.11.1",
     "mongodb": "^2.2.24",
     "mongoose": "^4.9.0",
     "morgan": "^1.8.1",

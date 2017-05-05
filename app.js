@@ -9,6 +9,7 @@ let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let routes = require('./routes/index')
 let newrelic = require('newrelic')
+let minifyHTML = require('express-minify-html')
 let app = express()
 const port = process.env.PORT || 8080
 
@@ -23,6 +24,20 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', routes)
+
+app.use(minifyHTML({
+    override:      true,
+    exception_url: false,
+    htmlMinifier: {
+        removeComments:            true,
+        collapseWhitespace:        true,
+        collapseBooleanAttributes: true,
+        removeAttributeQuotes:     true,
+        removeEmptyAttributes:     true,
+        minifyJS:                  true,
+				minifyCSS:							   true,
+    }
+}));
 
 // forward 404 to error handler
 app.use(function(req, res, next) {
