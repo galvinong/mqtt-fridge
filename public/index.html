@@ -6,26 +6,33 @@
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <link rel="manifest" href="/manifest.json">
-        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
         <link rel="stylesheet" type="text/css" href="css/default.css"/>
-        <script src="https://use.fontawesome.com/d9bd4b5968.js"></script>
+
         <script src="https://code.jquery.com/jquery-3.2.0.min.js" integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.13/push.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.runtime.min.js"></script>
-        <script type="text/javascript" src="javascript/templates.js"></script>
-        <script type="text/javascript" src="javascript/pahoclient.js"></script>
-        <script type="text/javascript" src="javascript/chartdraw.js"></script>
-        <script type="text/javascript" src="javascript/client.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.13/push.min.js"></script> -->
+
+        <link rel="manifest" href="/manifest.json">
         <script type="text/javascript" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js"></script>
+        <script type="text/javascript">
+        var OneSignal = window.OneSignal || []
+        OneSignal.push([
+        		"init", {
+        				appId: '***REMOVED***',
+        				notifyButton: {
+        						enable: true/* Set to false to hide */
+        				}
+        		}
+        ])
+        </script>
     </head>
 
     <body class="background-image">
+        <script src="https://use.fontawesome.com/d9bd4b5968.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+        <script type="text/javascript" src="javascript/pahoclient.js"></script>
         <div class="jumbotron color-jumbotron text-center">
             <div class="d-flex justify-content-center">
                 <img class="img-responsive" src="img/fridge.png" style="max-height:175px;"/>
@@ -94,6 +101,9 @@
             </div>
         </div>
 
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.runtime.min.js"></script>
+        <script type="text/javascript" src="javascript/templates.js"></script>
+        <script type="text/javascript" src="javascript/client.js"></script>
         <!-- Cards container -->
         <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
             <div id="card-content" class="card-columns" style="max-width: 560px">
@@ -104,12 +114,17 @@
             </div>
         </div>
 
+
         <!-- Chartjs live updates block  -->
         <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
             <div class="card text-center card-inverse col-xs-20 col-md-4 col-md-offset-4" style="min-height:250px;">
                 <canvas id="chartID"></canvas>
             </div>
         </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+        <script type="text/javascript" src="javascript/chartdraw.js"></script>
 
     </body>
 

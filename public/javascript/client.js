@@ -1,13 +1,3 @@
-var OneSignal = window.OneSignal || []
-OneSignal.push([
-		"init", {
-				appId: '***REMOVED***',
-				notifyButton: {
-						enable: true/* Set to false to hide */
-				}
-		}
-])
-
 // <--START of HandleBars Template-->
 // Create cardsData obj and cards array to be displayed
 let cardsData = {
