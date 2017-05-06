@@ -56,6 +56,9 @@ $(document).ready(function() {
 
 /**
  * [addNewCard add new card into the dashboard]
+ * @param {[array]} newCards     [push new card created into cards array]
+ * @param {[type]} returnString [return html id to insert into]
+ * @param {[type]} buttonID     [button id link]
  */
 function addNewCard(newCards, returnString, buttonID) {
 	// Push new object into cardsData and update
@@ -73,6 +76,8 @@ function addNewCard(newCards, returnString, buttonID) {
 
 /**
  * [addNewSubscribe add new subscription to MQTT server for new card]
+ * @param {[type]} channelString [description]
+ * @param {[type]} returnString  [description]
  */
 function addNewSubscribe(channelString, returnString) {
 	// Add channel to array channelNames and subscribe to new channel
@@ -86,6 +91,7 @@ function addNewSubscribe(channelString, returnString) {
 
 /**
  * [addNewWarning add new notification warning for new card]
+ * @param {[type]} channelString [description]
  */
 function addNewWarning(channelString) {
 	if (!($('#operator-select').val() === '')) {
@@ -105,6 +111,12 @@ function addNewWarning(channelString) {
 	}
 }
 
+/**
+ * [round description]
+ * @param  {[type]} value    [description]
+ * @param  {[type]} decimals [description]
+ * @return {[type]}          [description]
+ */
 function round(value, decimals) {
 	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }

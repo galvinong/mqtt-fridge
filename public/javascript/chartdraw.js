@@ -1,7 +1,7 @@
 // Momentjs definition of days
-const today = moment().startOf('day')
-const yesterday = moment(today).subtract(1, 'days')
-const tomorrow = moment(today).add(1, 'days')
+// const today = moment().startOf('day')
+// const yesterday = moment(today).subtract(1, 'days')
+// const tomorrow = moment(today).add(1, 'days')
 const pastHour = moment().subtract(1, 'hours')
 let pastMinute = moment().subtract(1, 'minutes')
 

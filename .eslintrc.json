@@ -27,6 +27,15 @@
         "linebreak-style": [
             "error",
             "windows"
+        ],
+        "max-len" : [
+          2, 120, 4, {
+              "ignoreUrls": true,
+              "ignoreComments": true,
+              "ignoreRegExpLiterals": true,
+              "ignoreStrings": true,
+              "ignoreTemplateLiterals": true
+          }
         ]
     }
 }

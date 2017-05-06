@@ -1,6 +1,7 @@
 'use strict'
 // Nodejs web server init file, serves html and images
 let express = require('express')
+let router = express.Router()
 // let hbs = require('express-handlebars')
 let path = require('path')
 // let favicon = require('serve-favicon')
@@ -9,7 +10,6 @@ let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let routes = require('./routes/index')
 let newrelic = require('newrelic')
-let minifyHTML = require('express-minify-html')
 let app = express()
 const port = process.env.PORT || 8080
 
@@ -25,19 +25,34 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', routes)
 
-app.use(minifyHTML({
-    override:      true,
-    exception_url: false,
-    htmlMinifier: {
-        removeComments:            true,
-        collapseWhitespace:        true,
-        collapseBooleanAttributes: true,
-        removeAttributeQuotes:     true,
-        removeEmptyAttributes:     true,
-        minifyJS:                  true,
-				minifyCSS:							   true,
-    }
-}));
+
+// Routes index page and database data
+router.get('/', function(req, res) {
+	res.render('index.html')
+})
+
+// API for database retrieval, sensor ID then moment js time format
+router.get('/get-data/:sensor_id/:time_created', function(req, res) {
+	SensorInput.find({sensor: req.params.sensor_id}).where('events.created').gt(req.params.time_created).exec(function(err, sensorItem) {
+		if (err) {
+			res.send(err)
+		} else {
+			res.send(sensorItem)
+		}
+	})
+})
+
+router.post('/add-warn', function(req, res) {
+	res.send('Warning received')
+	insertWarning(req.body)
+})
+
+router.delete('/add-warn', function(req, res) {
+	res.send('Delete recevied')
+	removeWarning(req.body)
+})
+
+app.use('/', router)
 
 // forward 404 to error handler
 app.use(function(req, res, next) {
@@ -67,6 +82,8 @@ app.use(function(err, req, res, next) {
 })
 
 app.listen(port)
+
+
 console.log('Express server running at\n  => http://localhost:' + port + '/\nCTRL + C to shutdown')
 
 module.exports = app

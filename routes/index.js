@@ -1,16 +1,25 @@
 'use strict'
 const deviceRoot = 'RF24SN/in/1/'
-let express = require('express')
-let app = express()
-let router = express.Router()
 let mqtt = require('mqtt')
 let https = require('https')
 let bodyParser = require('body-parser')
+// Schema for the sensor input using mongoose
+let mongoose = require('mongoose')
+const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
+const sensorSchema = new mongoose.Schema({
+	sensor: String,
+	events: {
+		value: Number,
+		created: Date,
+	},
+})
+// Creates a model based off the schema
+let SensorInput = mongoose.model('RF24SN', sensorSchema)
 
 // create application/json parser
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})) // support encoded bodies
-app.set('view engine', 'ejs')
+// app.set('view engine', 'ejs')
 
 //  OneSignal warning array
 let channelNames = {
@@ -62,8 +71,6 @@ let sendNotification = function(data) {
 
 
 // For MongoDB connection
-let mongoose = require('mongoose')
-const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
 mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
@@ -77,45 +84,6 @@ mongoose.connect(mongodbURI, function(err, res) {
 	}
 })
 
-// Schema for the sensor input using mongoose
-const sensorSchema = new mongoose.Schema({
-	sensor: String,
-	events: {
-		value: Number,
-		created: Date,
-	},
-})
-
-// Creates a model based off the schema
-let SensorInput = mongoose.model('RF24SN', sensorSchema)
-
-// Routes index page and database data
-router.get('/', function(req, res) {
-	res.render('index.html')
-})
-
-// API for database retrieval, sensor ID then moment js time format
-router.get('/get-data/:sensor_id/:time_created', function(req, res) {
-	SensorInput.find({sensor: req.params.sensor_id}).where('events.created').gt(req.params.time_created).exec(function(err, sensorItem) {
-		if (err) {
-			res.send(err)
-		} else {
-			res.send(sensorItem)
-		}
-	})
-})
-
-router.post('/add-warn', function(req, res) {
-	res.send('Warning received')
-	insertWarning(req.body)
-})
-
-router.delete('/add-warn', function(req, res) {
-	res.send('Delete recevied')
-	removeWarning(req.body)
-})
-
-app.use('/', router)
 
 /**
  * [removeWarning remove warning notification after deleting card]
