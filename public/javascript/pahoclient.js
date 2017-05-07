@@ -1,12 +1,12 @@
 // Socket handling script, gets live updates from mosquitto through websockets
 // Create a client instance
-client = new Paho.MQTT.Client(
+let pahoClient = new Paho.MQTT.Client(
   'm20.cloudmqtt.com',
   36673,
   'web_' + parseInt(Math.random() * 100, 10))
 
-client.onConnectionlost = onConnectionLost
-client.onMessageArrived = onMessageArrived
+pahoClient.onConnectionlost = onConnectionLost
+pahoClient.onMessageArrived = onMessageArrived
 let options = {
 	timeout: 3,
 	useSSL: true,
@@ -18,15 +18,15 @@ let options = {
 }
 
 // connect the client
-client.connect(options)
+pahoClient.connect(options)
 
 /**
  * [onConnect called when the client connects]
  */
 function onConnect() {
 	console.log('onConnect')
-	client.subscribe('RF24SN/in/1/1', {qos: 0})
-	client.subscribe('RF24SN/in/1/2', {qos: 0})
+	pahoClient.subscribe('RF24SN/in/1/1', {qos: 0})
+	pahoClient.subscribe('RF24SN/in/1/2', {qos: 0})
 };
 
 /**
@@ -67,7 +67,7 @@ let channelSubscribe = {
 function onMessageArrived(message) {
 	if (message.payloadString !== 'NaN') {
 		let payload = Math.floor(message.payloadString * 100) / 100
-		// Hide loading message 
+		// Hide loading message
 		// $('.loading').hide()
 		// Load values according to their html id
 		for (var i = 0; i < channelSubscribe.channel.length; i++) {
