@@ -9,6 +9,8 @@ let labels =[]
 let tempData=[]
 let humdData=[]
 
+
+
 // <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
 $('.loading').hide()
@@ -19,6 +21,7 @@ $.ajax({
 	const value = round(results[0].events.value, 2)
 	console.log(value)
 	$('#returntemp').html(value)
+	tempGauge.set(value) // set actual value
 })
 
 $.ajax({
@@ -27,7 +30,9 @@ $.ajax({
 }).done(function(results) {
 	const value = round(results[0].events.value, 2)
 	$('#returnhumd').html(value)
+	humdGauge.set(value)
 })
+
 
 $.ajax({
 	url: './get-data/1' + '/' + pastHour,
@@ -117,9 +122,9 @@ window.onload = function() {
 			maintainAspectRatio: false,
 		},
 	})
-	window.lineChart.update()
+
 	// Every 10 seconds update the graph
-	setInterval(function() {
+	setTimeout(function() {
 		let latestLabel = moment().format('MM-DD hh:mm')
 		let returntempValue = document.getElementById('returntemp').innerHTML
 		let returnhumdValue = document.getElementById('returnhumd').innerHTML
@@ -130,6 +135,8 @@ window.onload = function() {
 			lineChart.data.datasets[1].data[labels.length] = returnhumdValue
 			lineChart.data.labels[labels.length] = latestLabel
 			window.lineChart.update()
+			tempGauge.set(returntempValue) // set actual value
+			humdGauge.set(returnhumdValue)
 		}
 	}, 10000)
 }

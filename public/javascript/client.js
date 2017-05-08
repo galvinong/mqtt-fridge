@@ -6,15 +6,17 @@ let cardsData = {
 			title: 'Temperature',
 			location: 'Top Shelf',
 			returndata: 'returntemp',
+			canvasID: 'tempcanvas',
 			unitvalue: '°C',
-			cardtext: 'DHT22 Sensor, measures temperature air +-0.5°C accuracy',
+			cardtext: '+-0.5°C accuracy',
 			buttonValue: 'btnTemperature',
 		}, {
 			title: 'Humidity',
 			location: 'Top Shelf',
 			returndata: 'returnhumd',
+			canvasID: 'humdcanvas',
 			unitvalue: '%',
-			cardtext: 'DHT22 Sensor, measures humidity air +-2-5% accuracy',
+			cardtext: '+-2-5% accuracy',
 			buttonValue: 'btnHumidity',
 		},
 	],
@@ -22,6 +24,7 @@ let cardsData = {
 
 let template = Handlebars.templates['card-template'](cardsData)
 // <--END of HandleBars Template-->
+
 
 // <--Start of dropdown menu code-->
 $(document).ready(function() {
@@ -118,5 +121,5 @@ function addNewWarning(channelString) {
  * @return {[type]}          [description]
  */
 function round(value, decimals) {
-	return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+	return Number(Math.round(value+'e'+decimals)+'e-'+decimals)
 }

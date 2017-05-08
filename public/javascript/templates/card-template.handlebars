@@ -4,17 +4,18 @@
             <h4 class="card-title">{{title}}</h4>
             <h6 class="card-subtitle">Location:
                               {{location}}</h6>
-        </div>
-        <div class="card-block">
+        {{!-- </div> --}}
+        {{!-- <div class="card-block"> --}}
             <h6 class="saving loading card-title text-muted">
                     Waiting<span>.</span><span>.</span><span>.</span>
                 </h6>
             <span class="ready-value">
-                    <span class="card-title" id="{{returndata}}"></span>
-            <span class="card-title">{{unitvalue}}</span>
+                <canvas style="min-height:150px;" id="{{canvasID}}"></canvas>
+                <span class="card-title" id="{{returndata}}"></span>
+                <span class="card-title">{{unitvalue}}</span>
             </span>
-        </div>
-        <div class="card-block">
+        {{!-- </div> --}}
+        {{!-- <div class="card-block"> --}}
             <p class="card-text">
                 {{cardtext}}
             </p>

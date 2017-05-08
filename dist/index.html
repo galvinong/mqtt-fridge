@@ -3,11 +3,13 @@
 
     <head>
         <title>IoT Fridge MQTT</title>
-        <meta charset="utf-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
         <!-- <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> -->
-        <link rel="stylesheet" type="text/css" href="stylesheets/default.css"/>
+        <style>
+.color-jumbotron{background-color:#233237;color:#FFF}.ready-value{display:block;font-size:1.5em;font-weight:700;margin:.83em 0}#dropdown-card{display:-ms-inline-grid;display:inline-grid;width:400px;height:auto;padding:20px}@media (min-width:34rem){.card-columns{column-count:2;-webkit-transform:translate3d(0,0,0)}}@media (min-width:48rem){.card-columns{column-count:1;-webkit-transform:translate3d(0,0,0)}}.body{font-size:12px;font-family:Roboto;font-weight:400}.background-image{background:url(https://res.cloudinary.com/hkpq6gkkm/image/upload/v1489404378/background_lwfemk.jpg) center no-repeat fixed;z-index:-1;width:100%;height:100%;background-size:cover}.padding-top{padding-top:20px}.padding-bottom{padding-bottom:30px}.padding-left{padding-left:20px}.padding-right{padding-right:20px}@keyframes blink{0%,100%{opacity:.2}20%{opacity:1}}.saving span{animation-name:blink;animation-duration:1.4s;animation-iteration-count:infinite;animation-fill-mode:both}.saving span:nth-child(2){animation-delay:.2s}.saving span:nth-child(3){animation-delay:.4s}
+</style>
         <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script> -->
         <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/push.js/0.0.13/push.min.js"></script> -->
         <link rel="manifest" href="/manifest.json">
@@ -26,15 +28,13 @@
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.0/moment.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-        <script type="text/javascript" src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.runtime.min.js"></script>
-
         <!-- <script type="text/javascript" src="javascript/pahoclient.js"></script> -->
 
 
         <div class="jumbotron color-jumbotron text-center">
             <div class="d-flex justify-content-center">
-                <img class="img-responsive" src="images/fridge.png" style="max-height:175px;"/>
+                <img class="img-responsive" src="images/fridge.png" style="max-height:175px;">
                 <div>
                     <h1>Fridge IoT Sensor</h1>
                     <h7>MQTT Websockets Dashboard</h7>
@@ -113,63 +113,7 @@
                 </script>
             </div>
         </div>
-        <script type="text/javascript">
-            var opts = {
-                angle: -0.2, // The span of the gauge arc
-                lineWidth: 0.2, // The line thickness
-                radiusScale: 1, // Relative radius
-                pointer: {
-                    length: 0.6, // // Relative to gauge radius
-                    strokeWidth: 0.035, // The thickness
-                    color: '#000000', // Fill color
-                },
-                staticLabels: {
-                    font: "13px sans-serif",
-                    labels: [5, 15, 20],
-                    fractionDigits: 0
-                },
-                limitMax: false,     // If false, the max value of the gauge will be updated if value surpass max
-                limitMin: false,     // If true, the min value of the gauge will be fixed unless you set it manually
-                colorStart: 'rgba(217, 83, 79, 1)',   // Colors
-                colorStop: 'rgba(217, 83, 79, 1)',    // just experiment with them
-                strokeColor: '#E0E0E0',  // to see which ones work best for you
-                generateGradient: true,
-                highDpiSupport: true,     // High resolution support
-            }
-            var optsTwo = {
-                angle: -0.2, // The span of the gauge arc
-                lineWidth: 0.2, // The line thickness
-                radiusScale: 1, // Relative radius
-                pointer: {
-                    length: 0.6, // // Relative to gauge radius
-                    strokeWidth: 0.035, // The thickness
-                    color: '#000000', // Fill color
-                },
-                staticLabels: {
-                    font: "13px sans-serif",
-                    labels: [75, 100],
-                    fractionDigits: 0
-                },
-                limitMax: false,     // If false, the max value of the gauge will be updated if value surpass max
-                limitMin: false,     // If true, the min value of the gauge will be fixed unless you set it manually
-                colorStart: 'rgba(84, 137, 225, 1)',   // Colors
-                colorStop: 'rgba(84, 137, 225, 1)',    // just experiment with them
-                strokeColor: '#E0E0E0',  // to see which ones work best for you
-                generateGradient: true,
-                highDpiSupport: true,     // High resolution support
-            }
-            let target = document.getElementById('tempcanvas') // your canvas element
-            let tempGauge = new Gauge(target).setOptions(opts) // create sexy gauge!
-            tempGauge.maxValue = 25 // set max gauge value
-            tempGauge.setMinValue(0)  // Prefer setter over gauge.minValue = 0
-            tempGauge.animationSpeed = 32 // set animation speed (32 is default value)
 
-            let targetTwo = document.getElementById('humdcanvas') // your canvas element
-            let humdGauge = new Gauge(targetTwo).setOptions(optsTwo) // create sexy gauge!
-            humdGauge.maxValue = 100 // set max gauge value
-            humdGauge.setMinValue(0)  // Prefer setter over gauge.minValue = 0
-            humdGauge.animationSpeed = 32 // set animation speed (32 is default value)
-        </script>
         <!-- Chartjs live updates block  -->
         <div class="d-flex justify-content-center padding-bottom padding-right padding-left">
             <div class="card text-center card-inverse col-xs-20 col-md-4 col-md-offset-4" style="min-height:250px;">
