@@ -9,51 +9,74 @@ let labels =[]
 let tempData=[]
 let humdData=[]
 
-
+// Every 10 seconds update the graph
+setInterval(function() {
+	let latestLabel = moment().format('MM-DD hh:mm')
+	let returntempValue = document.getElementById('returntemp').innerHTML
+	let returnhumdValue = document.getElementById('returnhumd').innerHTML
+	// If values are NaN or empty, don't udpate the chart
+	if (isNaN(returntempValue) || isNaN(returnhumdValue) || returntempValue !== '' || returnhumdValue !== '') {
+		console.log(returntempValue + ' ' + returnhumdValue)
+		lineChart.data.datasets[0].data[labels.length] = returntempValue
+		lineChart.data.datasets[1].data[labels.length] = returnhumdValue
+		lineChart.data.labels[labels.length] = latestLabel
+		window.lineChart.update()
+		tempGauge.set(returntempValue) // set actual value
+		humdGauge.set(returnhumdValue)
+	}
+}, 10000)
 
 // <--START of ChartJS code-->
 // API to retrieve data for chart drawing, according to /get-data/sensorid/date
-$('.loading').hide()
-$.ajax({
-	url: './get-data/1' + '/' + pastMinute,
-	dataType: 'json',
-}).done(function(results) {
-	const value = round(results[0].events.value, 2)
-	console.log(value)
-	$('#returntemp').html(value)
-	tempGauge.set(value) // set actual value
-})
-
-$.ajax({
-	url: './get-data/2' + '/' + pastMinute,
-	dataType: 'json',
-}).done(function(results) {
-	const value = round(results[0].events.value, 2)
-	$('#returnhumd').html(value)
-	humdGauge.set(value)
-})
-
-
-$.ajax({
-	url: './get-data/1' + '/' + pastHour,
-	dataType: 'json',
-}).done(function(results) {
-	// console.log(results)
-	results.forEach(function(packet) {
-		labels.push(moment(packet.events.created).format('MM-DD hh:mm'))
-		tempData.push(packet.events.value)
+/**
+ * [getInitialValue description]
+ */
+// function getInitialValue() {
+	$('.loading').hide()
+	$.ajax({
+		url: './get-data/1' + '/' + pastMinute,
+		dataType: 'json',
+	}).done(function(results) {
+		const value = round(results[0].events.value, 2)
+		console.log(value)
+		$('#returntemp').html(value)
+		tempGauge.set(value) // set actual value
 	})
-})
 
-$.ajax({
-	url: './get-data/2' + '/' + pastHour,
-	dataType: 'json',
-}).done(function(results) {
-	// console.log(results)
-	results.forEach(function(packet) {
-		humdData.push(packet.events.value)
+	$.ajax({
+		url: './get-data/2' + '/' + pastMinute,
+		dataType: 'json',
+	}).done(function(results) {
+		const value = round(results[0].events.value, 2)
+		$('#returnhumd').html(value)
+		humdGauge.set(value)
 	})
-})
+// }
+/**
+ * [getGraphValues description]
+ */
+// function getGraphValues() {
+	$.ajax({
+		url: './get-data/1' + '/' + pastHour,
+		dataType: 'json',
+	}).done(function(results) {
+		// console.log(results)
+		results.forEach(function(packet) {
+			labels.push(moment(packet.events.created).format('MM-DD hh:mm'))
+			tempData.push(packet.events.value)
+		})
+	})
+
+	$.ajax({
+		url: './get-data/2' + '/' + pastHour,
+		dataType: 'json',
+	}).done(function(results) {
+		// console.log(results)
+		results.forEach(function(packet) {
+			humdData.push(packet.events.value)
+		})
+	})
+// }
 // End of API code
 
 const data = {
@@ -122,22 +145,6 @@ window.onload = function() {
 			maintainAspectRatio: false,
 		},
 	})
-
-	// Every 10 seconds update the graph
-	setTimeout(function() {
-		let latestLabel = moment().format('MM-DD hh:mm')
-		let returntempValue = document.getElementById('returntemp').innerHTML
-		let returnhumdValue = document.getElementById('returnhumd').innerHTML
-		// If values are NaN or empty, don't udpate the chart
-		if (isNaN(returntempValue) || isNaN(returnhumdValue) || returntempValue !== '' || returnhumdValue !== '') {
-			console.log(returntempValue + ' ' + returnhumdValue)
-			lineChart.data.datasets[0].data[labels.length] = returntempValue
-			lineChart.data.datasets[1].data[labels.length] = returnhumdValue
-			lineChart.data.labels[labels.length] = latestLabel
-			window.lineChart.update()
-			tempGauge.set(returntempValue) // set actual value
-			humdGauge.set(returnhumdValue)
-		}
-	}, 10000)
 }
+
 // <--End of ChartJS code-->

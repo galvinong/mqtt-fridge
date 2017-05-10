@@ -28,6 +28,8 @@ let template = Handlebars.templates['card-template'](cardsData)
 
 // <--Start of dropdown menu code-->
 $(document).ready(function() {
+	$('[data-toggle="tooltip"]').tooltip()
+	// getInitialValue()
 	$('.loading').hide()
 	// Logic for add card dropdown button
 	$('#cancelCard').click(function() {
@@ -36,23 +38,28 @@ $(document).ready(function() {
 
 	// Logic for add card button clicked
 	$('#addCard').click(function() {
-		if ($('#title-input').val() === '') {
-			$('#title-input').prop('required', true)
-			$('#title-input').addClass('form-control-danger')
-		} else if ($('#channel-input').val() === '') {
-			$('#channel-input').prop('required', true)
-		} else {
-			let newCards = {cards: []}
-			let returnString = 'return' + $('#title-input').val()
-			let buttonID = 'btn' + $('title-input').val()
-			let channelString = $('#channel-input').val()
-			addNewCard(newCards, returnString, buttonID)
-			addNewSubscribe(channelString, returnString)
-			addNewWarning(channelString)
-			let newCardsTemplate = Handlebars.templates['card-template'](newCards)
-			$('#card-content').append(newCardsTemplate)
-			$('.collapse').collapse('toggle')
-		}
+		$("form[name='cardform']").validate({
+			rules: {
+				titleName: 'required',
+				channelName: 'required',
+			},
+			messages: {
+				titleName: 'Please enter a card title',
+				channelName: 'Please enter a MQTT channel name',
+			},
+			submitHandler: function() {
+				let newCards = {cards: []}
+				let returnString = 'return' + $('#title-input').val()
+				let buttonID = 'btn' + $('title-input').val()
+				let channelString = $('#channel-input').val()
+				addNewCard(newCards, returnString, buttonID)
+				addNewSubscribe(channelString, returnString)
+				addNewWarning(channelString)
+				let newCardsTemplate = Handlebars.templates['card-template'](newCards)
+				$('#card-content').append(newCardsTemplate)
+				$('.collapse').collapse('toggle')
+			},
+		})
 	})
 })
 // <--End of dropdown menu code-->
@@ -84,7 +91,7 @@ function addNewCard(newCards, returnString, buttonID) {
  */
 function addNewSubscribe(channelString, returnString) {
 	// Add channel to array channelNames and subscribe to new channel
-	client.subscribe(channelString)
+	pahoClient.subscribe(channelString)
 	let newChannel = {
 		id: channelString,
 		return: returnString,
