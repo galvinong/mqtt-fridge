@@ -33,7 +33,7 @@ let channelNames = {
 let sendNotification = function(data) {
 	let headers = {
 		'Content-Type': 'application/json; charset=utf-8',
-		'Authorization': 'Basic ***REMOVED***',
+		'Authorization': config.NotifyAuth,
 	}
 
 	let options = {
@@ -63,14 +63,14 @@ let sendNotification = function(data) {
 
 // For MongoDB connection
 let mongoose = require('mongoose')
-const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://***REMOVED***'
+const mongodbURI = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || config.MONGODB_URL
 mongoose.connect(mongodbURI, function(err, res) {
 	if (err) {
 		console.log('ERROR connecting to ' + mongodbURI + '. ' + err )
 	} else {
 		console.log('Success connected to: ' + mongodbURI)
 		// Create a mqtt client and subscribe to all under deviceroot
-		let mqttClient = mqtt.connect('mqtt://***REMOVED***:***REMOVED***@m20.cloudmqtt.com:16673')
+		let mqttClient = mqtt.connect('mqtt://\config.username:\config.password/@m20.cloudmqtt.com:16673')
 		mqttClient.subscribe(deviceRoot + '+')
 		// Calls function insertEvent when message arrives
 		mqttClient.on('message', insertEvent)
@@ -188,7 +188,7 @@ function checkNotification(topic, payload) {
 				if (payload > channelNames.channel[i].warning) {
 					console.log('bigger')
 					let message = {
-						app_id: '***REMOVED***',
+						app_id: config.appID,
 						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value above range! ' + payload},
 						included_segments: ['All'],
 					}
@@ -199,7 +199,7 @@ function checkNotification(topic, payload) {
 				if (payload < channelNames.channel[i].warning ) {
 					console.log('smaller')
 					let message = {
-						app_id: '***REMOVED***',
+						app_id: config.appID,
 						contents: {'en': 'Warning: ' + channelNames.channel[i].title + ' value below range! ' + payload},
 						included_segments: ['All'],
 					}

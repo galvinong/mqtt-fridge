@@ -11,8 +11,8 @@ let options = {
 	timeout: 3,
 	useSSL: true,
 	cleanSession: true,
-	userName: '***REMOVED***',
-	password: '***REMOVED***',
+	userName: config.username,
+	password: config.password,
 	onSuccess: onConnect,
 	onFailure: doFail,
 }
