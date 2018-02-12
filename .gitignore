@@ -60,11 +60,8 @@ typings/
 RF24SN_Arduino_Client/
 RF24SN_RaspberryPi_Server/
 mqtt-fridge.zip
-<<<<<<< HEAD
 config.js
 heroku.sh
 public/manifest.json
 public/dist/
 dist/
-=======
->>>>>>> 1f5ae7856cbe43530ed517da5c1510aa138273a1
